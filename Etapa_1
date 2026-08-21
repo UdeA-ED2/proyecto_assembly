@@ -1,1 +1,23 @@
+.global _start
+.equ N, 5
+_start:
+#	la s0, InputData
+#	la s1, OutputData
+	
+	#addi s0, zero,N
+	
+	
+	
+#.data
+#InputData:
+#	.DC.L 1010, 39,2,1,5,4,6,3,78,65 #guarda 2 numeros
+#OutputData:
+#	.DS.L 10
+#Fin:
+#	.string "ya"
 
+.data
+array: .dc.l 10
+dato: .dc.l 75142
+
+	
