@@ -1,23 +1,135 @@
 .global _start
-.equ N, 5
 _start:
-#	la s0, InputData
-#	la s1, OutputData
-	
-	#addi s0, zero,N
-	
-	
-	
-#.data
-#InputData:
-#	.DC.L 1010, 39,2,1,5,4,6,3,78,65 #guarda 2 numeros
-#OutputData:
-#	.DS.L 10
-#Fin:
-#	.string "ya"
 
+main:
+    la   s0, pruebas            # Puntero a la lista de pruebas
+    la   s1, resultados_esperados # Puntero a resultados BCD esperados
+    la   s2, signos_esperados   # Puntero a signos esperados
+    la   s3, resultados_obtenidos # Puntero de lista de salida acumulado
+    la   t0, num_casos
+    lw   s4, 0(t0)              # Contador de pruebas pendientes (8)
+    addi s5, zero, 1            # bandera de éxito global (1 = Todo correcto, 0 = Error)
+
+bucle_pruebas:
+    beq  s4, zero, fin_pruebas  # s4=0 Si procesamos todas las pruebas, salir
+
+    lw   a0, 0(s0)              # Cargar valor a probar en a0
+    la   a1, BCD                # a1 = Dirección del vector BCD
+    la   a2, potencias10        # a2 = Dirección de la tabla de potencias
+
+    jal  ra, ca2_a_bcd          # Llamar a la función de conversión (Retorna signo en a0)
+
+    #Copiar resultado BCD a la lista
+    la   t0, BCD #t0 es el puntero que recorrera BCD despues de estar completado
+    addi t1, zero, 10 #contador para 10 digitos
+    
+copiar_bcd: #Copia los digitos hasta que t1=0 para asegurar 10 digitos
+    beq  t1, zero, comparar_signo #si t1 llega a 0 entonces compara los signos
+    lw   t2, 0(t0) #en t2 carga el valor de la direccion de memoria de t0
+    sw   t2, 0(s3) #guarda el valor de t2 en la direccion de s3 
+    addi t0, t0, 4 #para desplazar al siguiente numero en bcd
+    addi s3, s3, 4 #mueve a la siguiente posicion de resultados obtenidos
+    addi t1, t1, -1 #disminuye hasta llegar a 0 para contar los digitos
+    j    copiar_bcd
+
+comparar_signo:
+    lw   t0, 0(s2) #T0 pasa a ser el signo esperado
+    bne  a0, t0, error_prueba   # Verificar si el signo retornado es el esperado si son diferentes se va a error
+
+    #Comparar dígito por digito de la lista de BCD 
+    la   t0, BCD #Carga el la direccion de bcd
+    addi t1, zero, 10 #contador para 10 digitos
+    
+comparar_bcd:
+    beq  t1, zero, prueba_correcta #si t1=0 todo esta correcto sino verifica digito por digito
+    lw   t2, 0(t0)  #t2 pasa a ser el valor de BCD obtenido
+    lw   t3, 0(s1) #T3 Carga el valor de la lista de resultado esperado
+    bne  t2, t3, error_prueba   # Verificar si cada dígito coincide sino hay error
+    addi t0, t0, 4 #pasa a la siguiente posicion de bcd obetnido
+    addi s1, s1, 4 #pasa a la siguiente posicion de resultado esperado
+    addi t1, t1, -1 #dismuye el contador
+    j    comparar_bcd
+
+prueba_correcta: #Finaliza la prueba de un caso a probar
+    addi s0, s0, 4              # Siguiente caso de prueba s0 pasa a ser la direccion del siguiente numero en la lista de casos
+    addi s2, s2, 4              # Siguiente signo esperado s2 pasa a ser la direccion de la siguiente posicion en la lista de signo esperado
+    addi s4, s4, -1             # Decrementar contador de pruebas 8 pruebas y disminuye a 0
+    j    bucle_pruebas
+
+error_prueba:
+    addi s5, zero, 0            # Marcar que hubo al menos un error
+    addi s0, s0, 4
+    addi s2, s2, 4
+    addi s4, s4, -1
+    addi s1, s1, 40             # Saltar 10 palabras en los esperados
+    j    bucle_pruebas
+
+fin_pruebas:
+    la   t0, resultado_final    #carga la direccion de memoria donde vamos a guardar el resultado final
+    sw   s5, 0(t0)              # Guardar 1 si todo está melo :), 0 si falló algo :'(
+
+fin:
+    j    fin                    # Bucle infinito al terminar
+
+#Para el programa 
+# Entrada: a0 = entero Ca2, a1 = buffer BCD, a2 = potencias10
+# Salida:  a0 = signo (0: pos, 1: neg)
+
+ca2_a_bcd:
+    # 1. Determinar el signo e invertir si es negativo
+    addi t0, zero, 0            # t0 = Signo por defecto (0 = Positivo)
+    bge  a0, zero, inicio_bcd   # Si a0 >= 0, saltar porque es un numero positivo mayor a 0
+
+    addi t0, zero, 1            # Marcar como negativo (Signo = 1)
+    sub  a0, zero, a0           # a0 = 0 - a0 (Obtener valor absoluto)
+
+inicio_bcd:
+    addi t5, zero, 0            # t5 va sumando de +4 para iterar sobre las direcciones de memoria de las potencias a restar
+    addi t6, zero, 10           # Contador: 10 dígitos BCD (t6)
+
+bucle_potencias:
+    beq  t6, zero, fin_conversion # Si procesamos 10 dígitos, salir
+
+    add  t1, a2, t5             # suma la direccion de memoria de las potencias cada 4 bytes
+    lw   t2, 0(t1)              # Cargar potencia de 10 actual
+    addi t3, zero, 0            # cociente temporal en cada resta para sacar un digito
+
+bucle_restas:
+    slt  t4, a0, t2             # el numero actual es menor que la potencia? entonces t4 = 1
+    bne  t4, zero, guardar_digito # Si diferente de 0 pasa a guardar el dígito y si es 1 continua
+
+    sub  a0, a0, t2             # Restar potencia al residuo
+    addi t3, t3, 1              # Incrementar dígito BCD para guardarlo
+    j    bucle_restas
+
+guardar_digito:
+    sw   t3, 0(a1)              # Guardar dígito en la memoria BCD
+    addi a1, a1, 4              # Avanzar puntero BCD
+    addi t5, t5, 4              # Avanzar offset de la tabla
+    addi t6, t6, -1             # Decrementar contador de dígitos
+    j    bucle_potencias
+
+fin_conversion:
+    add  a0, zero, t0           # Retornar el signo en a0
+    ret                         # Regresar a main
+
+# SECCIÓN DE DATOS
 .data
-array: .dc.l 10
-dato: .dc.l 75142
+pruebas:             .word 0, 2147483647, -2147483647, 1, -1, 12345, -98765, 1000000000
+num_casos:           .word 8
 
-	
+resultados_esperados:
+    .word 0,0,0,0,0,0,0,0,0,0   # 0
+    .word 2,1,4,7,4,8,3,6,4,7   # 2147483647
+    .word 2,1,4,7,4,8,3,6,4,7   # -2147483648
+    .word 0,0,0,0,0,0,0,0,0,1   # 1
+    .word 0,0,0,0,0,0,0,0,0,1   # -1
+    .word 0,0,0,0,0,1,2,3,4,5   # 12345
+    .word 0,0,0,0,0,9,8,7,6,5   # -98765
+    .word 1,0,0,0,0,0,0,0,0,0   # 1000000000
+
+signos_esperados:    .word 0, 0, 1, 0, 1, 0, 1, 0
+resultados_obtenidos: .space 320 # 8 pruebas * 10 digitos * 4 bytes
+BCD:                 .space 40  # Reservar 40 bytes para los 10 dígitos
+potencias10:         .word 1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1
+resultado_final:     .word 0    # 1 = Exito total, 0 = Error
