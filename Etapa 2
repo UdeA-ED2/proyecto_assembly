@@ -170,9 +170,7 @@ potencia_encontrada: #Cálculo de residuos tras extraer el 1 implícito
     addi t3, a4, 0                # t3 = Residuo de la parte decimal (escala /100000)
 
 
-    # ---------------------------------------------------------------
-    # BLOQUE 7: Generación iterativa de los 23 bits de la mantisa
-    # ---------------------------------------------------------------
+    #Generación iterativa de los 23 bits de la mantisa
     addi t0, zero, 23             # Contador para generar 23 bits
     addi a2, zero, 0              # a2 = Registro que construirá la mantisa
 
@@ -457,6 +455,167 @@ crear_signo_fraccion:
 
 float_positivo_fraccion:
     jr   ra                       # Retornar de la función
+
+
+#####################################################################
+# SUBRUTINA: float_a_bcd
+# Convierte un valor IEEE-754 (a0) a su representación BCD en memoria (a1)
+# Entrada: a0 = Valor float (32 bits IEEE-754)
+#          a1 = Puntero a la estructura BCD de salida (16 words)
+#####################################################################
+
+float_a_bcd:
+    addi sp, sp, -16              # Reservar espacio en pila
+    sw   ra, 12(sp)
+    sw   s2, 8(sp)
+    sw   s1, 4(sp)
+    sw   s0, 0(sp)
+
+    addi s0, a0, 0                 # s0 = Float de entrada
+    addi s1, a1, 0                 # s1 = Puntero de destino BCD
+
+    # ---------------------------------------------------------------
+    # Extraer Bit de Signo (Bit 31)
+    # ---------------------------------------------------------------
+    srli t0, s0, 31
+    sw   t0, 0(s1)                 # Guardar signo en la primera posición (word 0)
+
+    # ---------------------------------------------------------------
+    # Extraer Exponente (Bits 30:23) y Mantisa (Bits 22:0)
+    # ---------------------------------------------------------------
+    srli t1, s0, 23
+    andi t1, t1, 0xFF              # Exponente con sesgo
+
+    addi t2, zero, 1
+    slli t2, t2, 23
+    addi t2, t2, -1
+    and  t3, s0, t2                # t3 = Mantisa de 23 bits
+
+    # ---------------------------------------------------------------
+    # Validar Casos Especiales: Cero / Subnormales / Infinitos
+    # ---------------------------------------------------------------
+    addi t4, zero, 255
+    beq  t1, t4, marcar_error_bcd  # Exponente 255 -> Infinito/NaN (Error)
+
+    beq  t1, zero, marcar_cero_bcd # Exponente 0 -> Subnormal o Cero exacto
+
+    addi t5, t1, -127              # t5 = Exponente real E (E = sesgado - 127)
+    addi t6, zero, -17
+    blt  t5, t6, marcar_cero_bcd    # Exponente muy pequeño (< 2^-17) se lleva a 0.0
+
+    addi t6, zero, 31
+    bge  t5, t6, marcar_error_bcd   # Fuera de rango del entero -> Error
+
+    # ---------------------------------------------------------------
+    # Agregar '1' implícito a la mantisa en el bit 23
+    # ---------------------------------------------------------------
+    addi t4, zero, 1
+    slli t4, t4, 23
+    or   t3, t3, t4                # Mantisa completa en t3 (1.M)
+
+    # ---------------------------------------------------------------
+    # Descomponer en Parte Entera y Fraccionaria según Exponente Real E
+    # ---------------------------------------------------------------
+    blt  t5, zero, float_solo_decimal_bcd
+
+    addi t4, zero, 23
+    sub  t4, t4, t5                # Desplazamiento a la derecha
+    blt  t4, zero, entero_desplaza_izq_bcd
+
+    srl  s2, t3, t4                # s2 = Parte entera binaria
+    addi t6, zero, 1
+    sll  t6, t6, t4
+    addi t6, t6, -1
+    and  t3, t3, t6                # t3 = Residuo decimal binario
+    jal  zero, calcular_fraccion_bcd
+
+entero_desplaza_izq_bcd:
+    sub  t4, zero, t4
+    sll  s2, t3, t4                # s2 = Parte entera binaria
+    addi t3, zero, 0               # Sin residuo decimal
+    jal  zero, calcular_fraccion_bcd
+
+float_solo_decimal_bcd:
+    addi s2, zero, 0               # Parte entera = 0
+
+calcular_fraccion_bcd:
+    # Escalado de la fracción por 100000 para obtener dígitos enteros
+    la   t0, cien_mil
+    lw   t0, 0(t0)
+    mul  t3, t3, t0
+    srli t3, t3, 23                # t3 = Parte decimal en rango 0..99999
+
+    # ---------------------------------------------------------------
+    # Escribir Parte Entera a estructura BCD (10 words)
+    # ---------------------------------------------------------------
+    addi a0, s2, 0
+    addi a1, s1, 4                 # Avanzar al word 1 (inicio entero)
+    addi a2, zero, 10
+    jal  ra, binario_a_bcd_words
+
+    # ---------------------------------------------------------------
+    # Escribir Parte Fraccionaria a estructura BCD (5 words)
+    # ---------------------------------------------------------------
+    addi a0, t3, 0
+    addi a1, s1, 44                # Avanzar al word 11 (inicio decimal)
+    addi a2, zero, 5
+    jal  ra, binario_a_bcd_words
+
+    jal  zero, retorno_float_bcd
+
+marcar_cero_bcd:
+    # Llenar la estructura BCD con 0s en sus 15 dígitos
+    addi t0, zero, 4
+    addi t1, zero, 64
+limpiar_cero_loop:
+    beq  t0, t1, retorno_float_bcd
+    add  t2, s1, t0
+    sw   zero, 0(t2)
+    addi t0, t0, 4
+    jal  zero, limpiar_cero_loop
+
+marcar_error_bcd:
+    # Llenar la estructura BCD con 9s indicando desbordamiento/error
+    addi t0, zero, 4
+    addi t1, zero, 64
+    addi t3, zero, 9
+limpiar_error_loop:
+    beq  t0, t1, retorno_float_bcd
+    add  t2, s1, t0
+    sw   t3, 0(t2)
+    addi t0, t0, 4
+    jal  zero, limpiar_error_loop
+
+retorno_float_bcd:
+    lw   s0, 0(sp)
+    lw   s1, 4(sp)
+    lw   s2, 8(sp)
+    lw   ra, 12(sp)
+    addi sp, sp, 16
+    jr   ra
+
+
+#####################################################################
+# HELPER: binario_a_bcd_words
+# Convierte un entero a N dígitos BCD en palabras (.word)
+#####################################################################
+binario_a_bcd_words:
+    addi t0, a2, -1                # Índice local desde la derecha
+    slli t0, t0, 2                 # Offset en bytes (índice * 4)
+
+div_loop_words:
+    blt  t0, zero, ret_bin_bcd_words
+    addi t1, zero, 10
+    rem  t2, a0, t1                # Dígito = a0 % 10
+    div  a0, a0, t1                # a0 = a0 / 10
+
+    add  t3, a1, t0
+    sw   t2, 0(t3)                 # Almacenar dígito BCD en word
+    addi t0, t0, -4
+    jal  zero, div_loop_words
+
+ret_bin_bcd_words:
+    jr   ra
 
 
 
