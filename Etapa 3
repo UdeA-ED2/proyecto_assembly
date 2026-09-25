@@ -1,212 +1,207 @@
-###############################################################################
-# CALCULADORA ENTREGA 3 - UART + FPU + BCD COMPLETA
-###############################################################################
 .global _start
 _start:
 
 main:
-    # 1. Inicialización dinámica del Stack (reserva de 40 posiciones)
-    la    sp, tope_stack
+    la    sp, tope_stack            # Inicializar el puntero de pila
 
 ciclo_principal:
-    # Imprimir prompt
-    la    a0, msg_prompt
-    jal   ra, ImprimirCadenaUART
+    la    a0, msg_prompt            # Cargar dirección del mensaje("> ")
+    jal   ra, ImprimirCadenaUART    # Imprimir en consola
 
-    # Leer la expresión completa (ej: 2.555+2345.6543)
-    la    a0, buffer_entrada
-    jal   ra, LeerLineaUART
+    la    a0, buffer_entrada        # Cargar dirección del buffer de lectura
+    jal   ra, LeerLineaUART         # Leer entrada del usuario hasta Enter
 
-    # Buscar el operador (+, -, *, /)
-    la    a0, buffer_entrada
-    jal   ra, BuscarOperador
-    mv    s0, a0                 
-    mv    s1, a1                 
+    la    a0, buffer_entrada        # Cargar buffer para buscar el operador matemático
+    jal   ra, BuscarOperador        # Retorna el operador en a0 y el puntero al operando 2 en a1
+    mv    s0, a0                    # s0 = Operador (+, -, *, /)
+    mv    s1, a1                    # s1 = Puntero al inicio del segundo operando
 
-    beqz  s0, error_operacion
+    beqz  s0, error_operacion       # Si no se encontró operador, saltar a error
 
-    # --- OPERANDO 1: ASCII -> BCD -> FLOAT ---
-    la    a0, buffer_entrada
-    la    a1, bcd_op1
-    jal   ra, ascii_a_bcd        
+    # --- OPERANDO 1 ---
+    la    a0, buffer_entrada        # a0 = Puntero al string del primer operando
+    la    a1, bcd_op1               # a1 = Destino del arreglo BCD (64 bytes)
+    jal   ra, ascii_a_bcd           # Convertir ASCII a formato BCD expandido
     
-    la    a0, bcd_op1
-    jal   ra, bcd_a_float        
-    fmv.s fs0, fa0               
+    la    a0, bcd_op1               # a0 = Puntero al arreglo BCD del operando 1
+    jal   ra, bcd_a_float           # Convertir BCD a formato IEEE-754 (Float)
+    fmv.s fs0, fa0                  # fs0 = Valor flotante del operando 1[cite: 4]
 
-    # --- OPERANDO 2: ASCII -> BCD -> FLOAT ---
-    mv    a0, s1
-    la    a1, bcd_op2
-    jal   ra, ascii_a_bcd        
+    # --- OPERANDO 2 ---
+    mv    a0, s1                    # a0 = Puntero al string del segundo operando
+    la    a1, bcd_op2               # a1 = Destino del arreglo BCD (64 bytes)
+    jal   ra, ascii_a_bcd           # Convertir ASCII a formato BCD expandido
     
-    la    a0, bcd_op2
-    jal   ra, bcd_a_float        
-    fmv.s fs1, fa0               
+    la    a0, bcd_op2               # a0 = Puntero al arreglo BCD del operando 2
+    jal   ra, bcd_a_float           # Convertir BCD a formato IEEE-754 (Float)
+    fmv.s fs1, fa0                  # fs1 = Valor flotante del operando 2
 
     # --- OPERACIÓN FPU ---
     li    t0, '+'
-    beq   s0, t0, op_suma
+    beq   s0, t0, op_suma           # Si operador es '+', ir a suma
     li    t0, '-'
-    beq   s0, t0, op_resta
+    beq   s0, t0, op_resta          # Si operador es '-', ir a resta
     li    t0, '*'
-    beq   s0, t0, op_mult
+    beq   s0, t0, op_mult           # Si operador es '*', ir a multiplicación
     li    t0, '/'
-    beq   s0, t0, op_div
-    j     error_operacion
+    beq   s0, t0, op_div            # Si operador es '/', ir a división
+    j     error_operacion           # Operador desconocido
 
 op_suma:
-    fadd.s fa0, fs0, fs1
+    fadd.s fa0, fs0, fs1            # fa0 = fs0 + fs1
     j      procesar_resultado
 op_resta:
-    fsub.s fa0, fs0, fs1
+    fsub.s fa0, fs0, fs1            # fa0 = fs0 - fs1
     j      procesar_resultado
 op_mult:
-    fmul.s fa0, fs0, fs1
+    fmul.s fa0, fs0, fs1            # fa0 = fs0 * fs1
     j      procesar_resultado
 op_div:
-    fdiv.s fa0, fs0, fs1
+    fdiv.s fa0, fs0, fs1            # fa0 = fs0 / fs1
     j      procesar_resultado
 
 procesar_resultado:
-    # Imprimir " = "
-    la    a0, msg_igual
-    jal   ra, ImprimirCadenaUART
+    la    a0, msg_igual             # Cargar mensaje (" = ")
+    jal   ra, ImprimirCadenaUART    # Imprimir en consola
 
-    # --- RESULTADO: FLOAT -> BCD -> ASCII ---
-    la    a0, bcd_res
-    jal   ra, float_a_bcd        
+    la    a0, bcd_res               # Puntero al buffer BCD de resultado
+    jal   ra, float_a_bcd           # Convertir el resultado Float (fa0) a BCD
 
-    la    a0, bcd_res
-    jal   ra, bcd_a_ascii        
-    j     ciclo_principal
+    la    a0, bcd_res               # Puntero al buffer BCD de resultado
+    jal   ra, bcd_a_ascii           # Imprimir BCD resultante en consola
+    j     ciclo_principal           # Retornar al inicio para nueva operación
 
 error_operacion:
-    la    a0, msg_error
-    jal   ra, ImprimirCadenaUART
-    j     ciclo_principal
+    la    a0, msg_error             # Cargar mensaje de error
+    jal   ra, ImprimirCadenaUART    # Imprimir error
+    j     ciclo_principal           # Retornar al inicio
 
-###############################################################################
-# SUBRUTINAS BCD <-> ASCII
-###############################################################################
+#-----------------------------
+# SUBRUTINAS BCD <-> ASCII 
 ascii_a_bcd:
-    # 1. Limpiar las 11 palabras (44 bytes) a cero
-    mv    t0, a1
-    li    t1, 11
+    # 1. Limpiar arreglo BCD (16 palabras = 64 bytes)
+    mv    t0, a1                    # t0 = Puntero al arreglo BCD
+    li    t1, 16                    # Contador de 16 palabras
 limpiar_bcd:
-    sw    zero, 0(t0)
-    addi  t0, t0, 4
-    addi  t1, t1, -1
-    bnez  t1, limpiar_bcd
+    sw    zero, 0(t0)               # Escribir 0
+    addi  t0, t0, 4                 # Avanzar 4 bytes
+    addi  t1, t1, -1                # Decrementar contador
+    bnez  t1, limpiar_bcd           # Repetir hasta limpiar todo
 
     # 2. Evaluar Signo
-    li    t0, 0                  
-    lb    t1, 0(a0)
+    li    t0, 0                     # t0 = 0 (Asumir positivo por defecto)
+    lb    t1, 0(a0)                 # Leer primer carácter del string ASCII
     li    t2, '-'
-    bne   t1, t2, contar_enteros
-    li    t0, 1                  
-    addi  a0, a0, 1              
+    bne   t1, t2, contar_enteros    # Si no es '-', saltar al conteo
+    li    t0, 1                     # Es negativo: t0 = 1
+    addi  a0, a0, 1                 # Avanzar puntero ASCII ignorando el '-'
 contar_enteros:
-    sw    t0, 0(a1)              
+    sw    t0, 0(a1)                 # Guardar signo en la primera palabra del BCD
 
     # 3. Contar longitud de la parte entera
-    mv    t0, a0
-    li    t1, 0                  
+    mv    t0, a0                    # Guardar posición inicial ASCII
+    li    t1, 0                     # t1 = Contador de dígitos enteros
 contar_loop:
-    lb    t2, 0(t0)
-    beqz  t2, fin_contar         
+    lb    t2, 0(t0)                 # Leer carácter
+    beqz  t2, fin_contar            # Si es NULL, terminar conteo
     li    t3, '.'
-    beq   t2, t3, fin_contar     
+    beq   t2, t3, fin_contar        # Si es punto decimal, terminar conteo
     li    t3, '0'
-    blt   t2, t3, fin_contar
+    blt   t2, t3, fin_contar        # Validar límite inferior numérico
     li    t3, '9'
-    bgt   t2, t3, fin_contar
-    addi  t1, t1, 1
-    addi  t0, t0, 1
+    bgt   t2, t3, fin_contar        # Validar límite superior numérico
+    addi  t1, t1, 1                 # Incrementar contador de dígitos
+    addi  t0, t0, 1                 # Avanzar puntero
     j     contar_loop
 fin_contar:
     
-    # 4. Alinear parte entera a la derecha
-    li    t2, 5
-    sub   t2, t2, t1
-    slli  t2, t2, 2
-    addi  t2, t2, 4
-    add   t0, a1, t2             
+    # 4. Alinear enteros a la derecha en arreglo de 10 posiciones
+    li    t2, 10                    # Capacidad máxima de enteros
+    sub   t2, t2, t1                # Calcular desplazamiento (10 - longitud)
+    slli  t2, t2, 2                 # Desplazamiento en bytes (*4)
+    addi  t2, t2, 4                 # Sumar offset del signo (palabra 0)
+    add   t0, a1, t2                # t0 = Puntero al primer dígito entero válido
 
 escribir_enteros:
-    beqz  t1, chequear_decimal
-    lb    t2, 0(a0)
+    beqz  t1, chequear_decimal      # Si ya procesó enteros, pasar a decimales
+    lb    t2, 0(a0)                 # Leer dígito ASCII
     li    t3, '0'
-    sub   t2, t2, t3             
-    sw    t2, 0(t0)              
-    addi  t0, t0, 4
-    addi  a0, a0, 1
-    addi  t1, t1, -1
+    sub   t2, t2, t3                # Convertir ASCII a valor numérico (0-9)
+    sw    t2, 0(t0)                 # Guardar en arreglo BCD
+    addi  t0, t0, 4                 # Avanzar puntero BCD
+    addi  a0, a0, 1                 # Avanzar puntero ASCII
+    addi  t1, t1, -1                # Decrementar contador de dígitos
     j     escribir_enteros
 
 chequear_decimal:
-    # 5. Escribir parte decimal a la izquierda
-    lb    t2, 0(a0)
+    # 5. Escribir decimales alineados a la izquierda (5 posiciones máximas)
+    lb    t2, 0(a0)                 # Leer carácter actual
     li    t3, '.'
-    bne   t2, t3, fin_ascii_bcd  
-    addi  a0, a0, 1              
+    bne   t2, t3, fin_ascii_bcd     # Si no hay punto, terminar conversión
+    addi  a0, a0, 1                 # Avanzar ignorando el punto
     
-    addi  t0, a1, 24             
-    li    t1, 5                  
+    addi  t0, a1, 44                # Offset 44 bytes para la zona decimal (1 signo + 10 enteros)
+    li    t1, 5                     # Procesar máximo 5 decimales
 escribir_decimales:
-    beqz  t1, fin_ascii_bcd      
-    lb    t2, 0(a0)
-    beqz  t2, fin_ascii_bcd      
+    beqz  t1, fin_ascii_bcd         # Si se llenaron los 5 decimales, terminar
+    lb    t2, 0(a0)                 # Leer dígito ASCII
+    beqz  t2, fin_ascii_bcd         # Si fin de string, terminar
     li    t3, '0'
-    blt   t2, t3, fin_ascii_bcd  
+    blt   t2, t3, fin_ascii_bcd     # Validar dígito
     li    t3, '9'
     bgt   t2, t3, fin_ascii_bcd
     
     li    t3, '0'
-    sub   t2, t2, t3             
-    sw    t2, 0(t0)              
-    addi  t0, t0, 4
-    addi  a0, a0, 1
-    addi  t1, t1, -1
+    sub   t2, t2, t3                # Convertir a valor numérico
+    sw    t2, 0(t0)                 # Guardar en BCD decimal
+    addi  t0, t0, 4                 # Avanzar puntero BCD
+    addi  a0, a0, 1                 # Avanzar puntero ASCII
+    addi  t1, t1, -1                # Decrementar contador
     j     escribir_decimales
 fin_ascii_bcd:
     ret
 
 bcd_a_ascii:
+    # Preparar marco de pila
     addi  sp, sp, -16
     sw    ra, 0(sp)
     sw    s0, 4(sp)
     sw    s1, 8(sp)
     sw    s2, 12(sp)
-    mv    s0, a0
+    mv    s0, a0                    # s0 = Dirección base BCD
 
-    lw    t0, 0(s0)
-    beqz  t0, imp_enteros
+    # Imprimir signo si aplica
+    lw    t0, 0(s0)                 # Cargar palabra de signo
+    beqz  t0, omitir_signo          # Si es 0, es positivo
     li    a0, '-'
-    jal   ra, WriteUART          
+    jal   ra, WriteUART             # Imprimir '-'
+omitir_signo:
 
-imp_enteros:
-    addi  s1, s0, 4              
-    li    s2, 5
+    # Imprimir 10 dígitos enteros
+    addi  s1, s0, 4                 # Apuntar a la zona de enteros
+    li    s2, 10                    # Contador de 10 dígitos
 bucle_imp_ent:
-    lw    a0, 0(s1)
-    addi  a0, a0, '0'            
-    jal   ra, WriteUART          
-    addi  s1, s1, 4
+    lw    a0, 0(s1)                 # Leer valor numérico
+    addi  a0, a0, '0'               # Convertir a ASCII
+    jal   ra, WriteUART             # Imprimir carácter
+    addi  s1, s1, 4                 # Siguiente palabra
     addi  s2, s2, -1
     bnez  s2, bucle_imp_ent
 
     li    a0, '.'
-    jal   ra, WriteUART          
+    jal   ra, WriteUART             # Imprimir punto decimal
 
-    li    s2, 5
+    # Imprimir 5 dígitos decimales
+    li    s2, 5                     # Contador de 5 dígitos
 bucle_imp_dec:
-    lw    a0, 0(s1)
-    addi  a0, a0, '0'
-    jal   ra, WriteUART          
+    lw    a0, 0(s1)                 # Leer valor numérico (s1 continuó avanzando)
+    addi  a0, a0, '0'               # Convertir a ASCII
+    jal   ra, WriteUART             # Imprimir carácter
     addi  s1, s1, 4
     addi  s2, s2, -1
     bnez  s2, bucle_imp_dec
 
+    # Restaurar marco de pila
     lw    ra, 0(sp)
     lw    s0, 4(sp)
     lw    s1, 8(sp)
@@ -214,112 +209,138 @@ bucle_imp_dec:
     addi  sp, sp, 16
     ret
 
-###############################################################################
-# SUBRUTINAS DE CONVERSIÓN (Etapa 2)
-###############################################################################
+#-------------------------------
+# SUBRUTINAS DE CONVERSIÓN
+
 bcd_a_float:
-    lw   t0, 0(a0)                  
-    addi a0, a0, 4                  
-    la   t1, potencias10_5dig
-    addi t2, zero, 0                
-    addi t3, zero, 5
+    lw   t0, 0(a0)                  # t0 = Signo (0: +, 1: -)[cite: 4]
+    addi a0, a0, 4                  # Avanzar a la zona de enteros[cite: 4]
+    
+    # 1. Reconstruir parte entera (10 posiciones)
+    la   t1, potencias10_10dig      # Puntero a pesos: 10^9 ... 10^0
+    addi t2, zero, 0                # Acumulador entero[cite: 4]
+    addi t3, zero, 10               # Bucle de 10 iteraciones
 bucle_entero:
     beq  t3, zero, fin_entero
-    lw   t4, 0(a0)                  
-    lw   t5, 0(t1)                  
-    addi t6, zero, 0
+    lw   t4, 0(a0)                  # Dígito BCD[cite: 4]
+    lw   t5, 0(t1)                  # Potencia de 10[cite: 4]
+    addi t6, zero, 0                # Acumulador de multiplicación parcial
+#--------------------
+
 mult_entero:
-    beq  t4, zero, fin_mult_entero
+    beq  t4, zero, fin_mult_entero  # Multiplicación por sumas sucesivas
     add  t6, t6, t5
     addi t4, t4, -1
     j    mult_entero
 fin_mult_entero:
-    add  t2, t2, t6
-    addi a0, a0, 4
+    add  t2, t2, t6                 # Sumar resultado al acumulador total entero
+    addi a0, a0, 4                  # Avanzar punteros
     addi t1, t1, 4
     addi t3, t3, -1
     j    bucle_entero
 fin_entero:
-    la   t1, potencias10_5dig
-    addi t3, zero, 5
-    addi a3, zero, 0                
+
+    # 2. Reconstruir parte decimal (5 posiciones)[cite: 4]
+    la   t1, potencias10_5dig       # Puntero a pesos: 10000 ... 1
+    addi t3, zero, 5                # Bucle de 5 iteraciones
+    addi a3, zero, 0                # Acumulador decimal[cite: 4]
 bucle_decimal:
     beq  t3, zero, fin_decimal
-    lw   t4, 0(a0)
-    lw   t5, 0(t1)
+    lw   t4, 0(a0)                  # Leer dígito BCD decimal
+    lw   t5, 0(t1)                  # Leer peso posicional
     addi t6, zero, 0
 mult_decimal:
-    beq  t4, zero, fin_mult_decimal
+    beq  t4, zero, fin_mult_decimal # Multiplicación por sumas sucesivas
     add  t6, t6, t5
     addi t4, t4, -1
     j    mult_decimal
 fin_mult_decimal:
-    add  a3, a3, t6
+    add  a3, a3, t6                 # Sumar al acumulador total decimal
     addi a0, a0, 4
     addi t1, t1, 4
     addi t3, t3, -1
     j    bucle_decimal
 fin_decimal:
-    fcvt.s.w ft0, t2                
-    fcvt.s.w ft1, a3                
+
+    # 3. Unificar y Convertir a Flotante (IEEE-754)
+    fcvt.s.w ft0, t2                # Entero a float[cite: 4]
+    fcvt.s.w ft1, a3                # Decimal a float[cite: 4]
     la   t1, constante_100000
-    flw  ft2, 0(t1)                 
-    fdiv.s ft1, ft1, ft2            
-    fadd.s fa0, ft0, ft1            
+    flw  ft2, 0(t1)                 # 100000.0f[cite: 4]
+    fdiv.s ft1, ft1, ft2            # Escalar fraccionarios[cite: 4]
+    fadd.s fa0, ft0, ft1            # Unir entero + decimal[cite: 4]
+
+    # Aplicar signo si corresponde
     beq  t0, zero, fin_bcd2float
-    fmv.x.w t1, fa0
-    lui  t2, 0x80000                
-    or   t1, t1, t2
-    fmv.w.x fa0, t1
+    fmv.x.w t1, fa0                 # Extraer representación binaria
+    lui  t2, 0x80000                # Bit de signo (bit 31)[cite: 4]
+    or   t1, t1, t2                 # Invertir signo
+    fmv.w.x fa0, t1                 # Cargar de vuelta al registro flotante
 fin_bcd2float:
     ret
 
+
 float_a_bcd:
-    fmv.x.w t0, fa0                 
-    lui  t1, 0x7F800                
-    and  t2, t0, t1                 
-    beq  t2, t1, caso_error_float2bcd
-    slli t3, t0, 1                  
-    srli t3, t3, 1                  
-    beq  t3, zero, caso_cero_float2bcd
-    lui  t4, 0x36A00
+    # 1. Verificación de Excepciones del Estándar IEEE-754
+    fmv.x.w t0, fa0                 # Extraer representación binaria en t0[cite: 4]
+    lui  t1, 0x7F800                # Máscara para el exponente (bits 30..23)[cite: 4]
+    and  t2, t0, t1                 # Exponente extraído[cite: 4]
+    beq  t2, t1, caso_error_float2bcd # 1. Chequeo de Infinito o NaN (Exponente todo en 1 = 0x7F800000)[cite: 4]
+    
+    slli t3, t0, 1                  # Eliminar bit de signo[cite: 4]
+    srli t3, t3, 1                  # Magnitud pura en t3[cite: 4]
+
+    beq  t3, zero, caso_cero_float2bcd # 2. Chequeo de Underflow o Cero puro[cite: 4]
+    
+    lui  t4, 0x36A00                # Comparar contra Underflow (< 0.000005f)[cite: 4]
     blt  t3, t4, caso_underflow_float2bcd
-    lui  t4, 0x47C35
-    bge  t3, t4, caso_error_float2bcd
-    srli t1, t0, 31                 
-    sw   t1, 0(a0)                  
-    fabs.s ft0, fa0
-    fcvt.w.s t2, ft0, rtz           
-    fcvt.s.w ft1, t2                
-    fsub.s   ft2, ft0, ft1          
+    
+    lui  t4, 0x4F000                # Comparador de límite Overflow (2147483648.0)
+    bgt  t3, t4, caso_error_float2bcd # Si excede límite máximo, lanzar error
+    
+    # 2. Procesamiento de Magnitud y Signo
+    srli t1, t0, 31                 # Extraer bit de signo (0: +, 1: -)[cite: 4]
+    sw   t1, 0(a0)                  # Guardar código de estado/signo (0 o 1)[cite: 4]
+    
+    fabs.s ft0, fa0                 # Extraer valor absoluto con fabs.s[cite: 4]
+    
+    # 3. Separar parte entera y fraccionaria
+    fcvt.w.s t2, ft0, rtz           # t2 = parte entera (truncada hacia cero)[cite: 4]
+    fcvt.s.w ft1, t2                # ft1 = float(parte entera)[cite: 4]
+    fsub.s   ft2, ft0, ft1          # ft2 = parte fraccionaria[cite: 4]
+    
     la   t1, constante_100000
     flw  ft3, 0(t1)
-    fmul.s ft2, ft2, ft3            
-    fcvt.w.s a3, ft2, rne           
-    addi a1, a0, 4                  
-    add  a2, t2, zero               
-    la   t1, potencias10_5dig
-    addi t3, zero, 5
+    fmul.s ft2, ft2, ft3            # ft2 = fraccion * 100000.0f[cite: 4]
+    fcvt.w.s a3, ft2, rne           # a3 = entero de 5 dígitos decimales[cite: 4]
+    
+    # 4. Descomposición de la parte Entera a BCD
+    addi a1, a0, 4                  # a1 = Apunta al inicio de dígitos enteros
+    add  a2, t2, zero               # a2 = entero a descomponer[cite: 4]
+    la   t1, potencias10_10dig      # Bucle de división mediante restas
+    addi t3, zero, 10               # Procesar 10 posiciones
 desc_entero_loop:
     beq  t3, zero, fin_desc_entero
-    lw   t5, 0(t1)
-    addi t4, zero, 0
+    lw   t5, 0(t1)                  # Cargar peso decimal
+    addi t4, zero, 0                # Contador de cuántas veces cabe el peso
 restas_entero_loop:
-    blt  a2, t5, fin_restas_entero
-    sub  a2, a2, t5
-    addi t4, t4, 1
+    blt  a2, t5, fin_restas_entero  # Si ya no cabe el peso, guardar dígito
+    sub  a2, a2, t5                 # Restar peso al remanente
+    addi t4, t4, 1                  # Incrementar dígito BCD
     j    restas_entero_loop
 fin_restas_entero:
-    sw   t4, 0(a1)
-    addi a1, a1, 4
-    addi t1, t1, 4
+    sw   t4, 0(a1)                  # Guardar el dígito en BCD
+    addi a1, a1, 4                  # Avanzar puntero BCD
+    addi t1, t1, 4                  # Avanzar puntero de pesos
     addi t3, t3, -1
     j    desc_entero_loop
 fin_desc_entero:
-    addi a1, a0, 24                 
-    add  a2, a3, zero               
+
+    # 5. Descomposición de la parte Decimal a BCD
+    addi a1, a0, 44                 # Alinear puntero para saltar signo + 10 enteros
+    add  a2, a3, zero               # a2 = decimales a descomponer[cite: 4]
     la   t1, potencias10_5dig
-    addi t3, zero, 5
+    addi t3, zero, 5                # Procesar 5 posiciones
 desc_decimal_loop:
     beq  t3, zero, fin_desc_decimal
     lw   t5, 0(t1)
@@ -330,27 +351,29 @@ restas_decimal_loop:
     addi t4, t4, 1
     j    restas_decimal_loop
 fin_restas_decimal:
-    sw   t4, 0(a1)
+    sw   t4, 0(a1)                  # Guardar dígito decimal en BCD
     addi a1, a1, 4
     addi t1, t1, 4
     addi t3, t3, -1
     j    desc_decimal_loop
 fin_desc_decimal:
-    ret                             
+    ret                             # Regreso limpio al main[cite: 4]
+
 caso_cero_float2bcd:
-    srli t1, t0, 31                 
+    srli t1, t0, 31                 # Extraer bit de signo (0 para +0.0, 1 para -0.0)[cite: 4]
     sw   t1, 0(a0)
     j    limpiar_digitos_bcd
 caso_error_float2bcd:
-    addi t1, zero, 2                
+    addi t1, zero, 2                # Código de estado 2: ERROR/Overflow/NaN[cite: 4]
     sw   t1, 0(a0)
     j    limpiar_digitos_bcd
 caso_underflow_float2bcd:
-    addi t1, zero, 3                
+    addi t1, zero, 3                # Código de estado 3: Underflow[cite: 4]
     sw   t1, 0(a0)
 limpiar_digitos_bcd:
+    # Llenar arreglo BCD restando con ceros tras un error o un cero puro
     addi a1, a0, 4
-    addi t2, zero, 10
+    addi t2, zero, 15               # 15 palabras totales (10 ent + 5 dec)
 bucle_limpiar:
     beq  t2, zero, ret_float2bcd
     sw   zero, 0(a1)
@@ -358,69 +381,72 @@ bucle_limpiar:
     addi t2, t2, -1
     j    bucle_limpiar
 ret_float2bcd:
-    ret                             
-
-###############################################################################
+    ret                             # Regreso limpio al main[cite: 4]
+#-------------
 # SUBRUTINAS DE LECTURA/ESCRITURA UART
-###############################################################################
 WriteUART:
     la   t0, WriteAddrUART
     lw   t0, 0(t0)
-    sw   a0, 0(t0)
+    sw   a0, 0(t0)                  # Escribir carácter en registro MMIO UART
     jr   ra
 
 ReadUART:
     la   t0, ReadAddrUART
     lw   t0, 0(t0)
-    lw   a0, 0(t0)
+    lw   a0, 0(t0)                  # Leer registro MMIO UART a a0
     jr   ra
 
 DELChar:
+    # Rutina para manejar visualmente el borrado de carácteres en consola (Backspace)
     addi sp, sp, -4
     sw   ra, 0(sp)
-    addi a0, zero, 0x8 
+    addi a0, zero, 0x8              # Retroceso (Backspace)
     jal  ra, WriteUART
-    addi a0, zero, 0x20 
+    addi a0, zero, 0x20             # Espacio en blanco
     jal  ra, WriteUART
-    addi a0, zero, 0x8 
+    addi a0, zero, 0x8              # Retroceso (Backspace de retorno)
     jal  ra, WriteUART
     lw   ra, 0(sp)
     addi sp, sp, 4
     jr   ra
 
 LeerLineaUART:
+    # Lee datos hasta encontrar un salto de línea y maneja retrocesos
     addi  sp, sp, -12
     sw    ra, 0(sp)
     sw    s0, 4(sp)
     sw    s1, 8(sp)
-    mv    s0, a0
-    mv    s1, a0
+    mv    s0, a0                    # s0 = Puntero de escritura en buffer
+    mv    s1, a0                    # s1 = Límite inferior (no borrar más allá)
 bucle_lectura_linea:
     jal   ra, ReadUART
     la    t0, OchoMil
     lw    t0, 0(t0)
     and   t0, t0, a0
-    beq   t0, zero, bucle_lectura_linea
-    andi  a0, a0, 0xFF
+    beq   t0, zero, bucle_lectura_linea # Esperar hasta que un dato sea válido (bit de estado)
+    andi  a0, a0, 0xFF              # Limpiar bits de control superiores
+    
     li    t0, 13
-    beq   a0, t0, fin_lectura_linea
+    beq   a0, t0, fin_lectura_linea # Salir si Enter (CR)
     li    t0, 10
-    beq   a0, t0, fin_lectura_linea
+    beq   a0, t0, fin_lectura_linea # Salir si Enter (LF)
+    
     li    t0, 0x7F
-    beq   a0, t0, procesar_borrado
+    beq   a0, t0, procesar_borrado  # Si es suprimir
     li    t0, 0x08
-    beq   a0, t0, procesar_borrado
-    sb    a0, 0(s0)
-    addi  s0, s0, 1
-    jal   ra, WriteUART
+    beq   a0, t0, procesar_borrado  # Si es retroceso
+
+    sb    a0, 0(s0)                 # Almacenar carácter en buffer
+    addi  s0, s0, 1                 # Avanzar puntero
+    jal   ra, WriteUART             # Hacer "echo" en la terminal
     j     bucle_lectura_linea
 procesar_borrado:
-    beq   s0, s1, bucle_lectura_linea
-    addi  s0, s0, -1
-    jal   ra, DELChar
+    beq   s0, s1, bucle_lectura_linea # Ignorar si ya está en inicio
+    addi  s0, s0, -1                # Retroceder puntero en memoria
+    jal   ra, DELChar               # Borrar carácter en terminal
     j     bucle_lectura_linea
 fin_lectura_linea:
-    sb    zero, 0(s0)
+    sb    zero, 0(s0)               # Añadir terminador NULL
     lw    ra, 0(sp)
     lw    s0, 4(sp)
     lw    s1, 8(sp)
@@ -428,13 +454,14 @@ fin_lectura_linea:
     jr    ra
 
 ImprimirCadenaUART:
+    # Imprime un string terminado en NULL
     addi  sp, sp, -8
     sw    ra, 0(sp)
     sw    s0, 4(sp)
     mv    s0, a0
 bucle_imp_cadena:
     lb    a0, 0(s0)
-    beqz  a0, fin_imp_cadena
+    beqz  a0, fin_imp_cadena        # Si NULL, terminar iteración
     jal   ra, WriteUART
     addi  s0, s0, 1
     j     bucle_imp_cadena
@@ -445,14 +472,15 @@ fin_imp_cadena:
     jr    ra
 
 BuscarOperador:
-    mv    t0, a0
+    # Busca carácter matemático, divide strings y devuelve datos en a0/a1
+    mv    t0, a0                    # t0 = Puntero explorador
     lb    t1, 0(t0)
-    li    t2, '-'
-    bne   t1, t2, bucle_buscar_op
+    li    t2, '-'		#extrae el numero del simbolo
+    bne   t1, t2, bucle_buscar_op   # Ignorar si el primer carácter es el signo del operando 1
     addi  t0, t0, 1              
 bucle_buscar_op:
     lb    t1, 0(t0)
-    beqz  t1, no_encontrado_op
+    beqz  t1, no_encontrado_op      # Si fin de string, salir
     li    t2, '+'
     beq   t1, t2, op_encontrado
     li    t2, '-'
@@ -464,40 +492,37 @@ bucle_buscar_op:
     addi  t0, t0, 1
     j     bucle_buscar_op
 op_encontrado:
-    sb    zero, 0(t0)            
-    mv    a0, t1                 
-    addi  a1, t0, 1              
+    sb    zero, 0(t0)               # Escribir NULL para separar operando 1 en C-string
+    mv    a0, t1                    # Devolver el operador hallado
+    addi  a1, t0, 1                 # Devolver el puntero al operando 2
     ret
 no_encontrado_op:
-    mv    a0, zero
+    mv    a0, zero                  # Retornar error (0)
     mv    a1, zero
     ret
+	
 
-###############################################################################
-# SECCIÓN DE DATOS Y RESERVA DE STACK
-###############################################################################
+#---------------------------------
 .data
 msg_prompt:       .string "\r\n> "
 msg_igual:        .string " = "
 msg_error:        .string "\r\n[ERROR] Operacion invalida!\r\n"
 
-.align 2          # Alinear la memoria a 4 bytes para evitar errores
+.align 2          
 
-# Buffers de Entrada / Salida
-buffer_entrada:   .space 64
-bcd_op1:          .space 44
-bcd_op2:          .space 44
-bcd_res:          .space 44
+buffer_entrada:   .space 64                 # Buffer ASCII para lectura UART
+bcd_op1:          .space 64                 # 16 palabras (Signo, 10 ent, 5 dec)
+bcd_op2:          .space 64                 # 16 palabras (Signo, 10 ent, 5 dec)
+bcd_res:          .space 64                 # Resultado tras operación
 
-# Constantes de la FPU (Etapa 2)
-constante_100000: .float 100000.0
+constante_100000: .float 100000.0           # Constante flotante para escalado
+
+potencias10_10dig:.word 1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1
 potencias10_5dig: .word 10000, 1000, 100, 10, 1
 
-# Direcciones UART (Entrega 3)
 OchoMil:          .word 0x8000
-ReadAddrUART:     .dc.l 0xff201000
-WriteAddrUART:    .dc.l 0xff201000
+ReadAddrUART:     .dc.l 0xff201000          # Mapeo de E/S Lectura
+WriteAddrUART:    .dc.l 0xff201000          # Mapeo de E/S Escritura
 
-# Reserva requerida del Stack al final de .data (40 posiciones)
-reserva_stack:    .space 160
+reserva_stack:    .space 160                # Espacio para pila
 tope_stack:
