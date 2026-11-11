@@ -1,0 +1,2 @@
+Warning (10273): Verilog HDL warning at extend.sv(18): extended using "x" or "z" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/ProcesadorUniciclo/extend.sv Line: 18
+Warning (10273): Verilog HDL warning at alu.sv(28): extended using "x" or "z" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/ProcesadorUniciclo/alu.sv Line: 28
