@@ -1,5 +1,5 @@
 /*
- * This module is the TOP of the ARM single-cycle processor
+ * This module is the TOP of the ARM single-cycle	------------------  processor PRESENTAR
  */ 
 module top(input logic clk, nreset,
 			  input logic [9:0] switches,

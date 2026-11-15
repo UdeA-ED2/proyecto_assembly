@@ -7,8 +7,8 @@ module controller(input  logic [6:0] op,
 						input  logic       lt,//foco que nos dice si es menor que
                   output logic [1:0] ResultSrc,
                   output logic       MemWrite,
-                  output logic       PCSrc, ALUSrc,
-                  output logic       RegWrite, Jump,
+                  output logic [1:0] PCSrc, 
+                  output logic       ALUSrc, RegWrite, Jump,
                   output logic [1:0] ImmSrc,
                   output logic [2:0] ALUControl);
 
@@ -24,6 +24,10 @@ module controller(input  logic [6:0] op,
  
   logic TakeBranch;
   logic cond;
+  logic isjalr;
+  
+  //assigna el op de jalr para saber que direccion sale
+  assign isjalr = (op==7'b1100111);
 
   // Si funct3 empieza por '1' (como el 100 de blt), mira el foquito 'Lt'. Si no, mira 'Zero'.
   assign cond = funct3[2] ? lt : Zero; 
@@ -31,6 +35,14 @@ module controller(input  logic [6:0] op,
   // funct3 termina en '0' para blt. Esta línea ajusta la condición correctamente.
   assign TakeBranch = cond ^ funct3[0]; 
 
-  // El director decide saltar si es un Branch y TakeBranch es verdadero.
-  assign PCSrc = (Branch & TakeBranch) | Jump;
+  //aqui escoge que direccion le entregara al pc
+  always_comb begin
+  if(isjalr)
+			PCSrc = 2'b10; //salta a la salida de la ALU
+   else if((Branch & TakeBranch) | Jump)
+			PCSrc = 2'b01; //Branches tomados o jal saltan a PCTarget
+	else 
+			PCSrc = 2'b00; //normal pc+4
+	end
+ 
 endmodule

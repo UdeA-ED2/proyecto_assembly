@@ -1,7 +1,7 @@
 module datapath(input  logic        clk, reset,
                 input  logic [1:0]  ResultSrc, 
-                input  logic        PCSrc, ALUSrc,
-                input  logic        RegWrite,
+                input  logic [1:0]  PCSrc, 
+                input  logic        ALUSrc, RegWrite,
                 input  logic [1:0]  ImmSrc,
                 input  logic [2:0]  ALUControl,
                 output logic        Zero,lt,
@@ -19,7 +19,7 @@ module datapath(input  logic        clk, reset,
   flopr #(32) pcreg(clk, reset, PCNext, PC); 
   adder       pcadd4(PC, 32'd4, PCPlus4); //pcadd4: Calcula la dirección de la siguiente instrucción secuencial ($PC + 4$).  
   adder       pcaddbranch(PC, ImmExt, PCTarget); //pcaddbranch: Calcula la dirección destino de saltos ($PCTarget = PC + ImmExt$). 
-  mux2 #(32)  pcmux(PCPlus4, PCTarget, PCSrc, PCNext); //calcula siguiente direccion de memoria escogiendo si sumando la extencion o solo sumando +4
+  mux3 #(32)  pcmux(PCPlus4, PCTarget,ALUResult, PCSrc, PCNext); //calcula siguiente direccion de memoria escogiendo si sumando la extencion o solo sumando +4
  
   // register file logic
   regfile     rf(clk, RegWrite, Instr[19:15], Instr[24:20], 

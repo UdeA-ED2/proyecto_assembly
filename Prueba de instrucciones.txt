@@ -1,0 +1,68 @@
+.global _start
+_start:
+    addi a0, zero, 0        # Inicializar a0 = 0 (contador de pruebas exitosas)
+    la s0, LEDs             # Cargar dirección en memoria de la etiqueta LEDs
+    lw s0, 0(s0)            # Leer el valor 0xFF200000 desde esa dirección -> s0 = 0xFF200000
+    sw a0, 0(s0)            # Inicializar LEDs en 0
+
+    # PRUEBA 1: bne Verdadero (5 != 3) -> Salta
+    addi t0, zero, 5
+    addi t1, zero, 3
+    bne t0, t1, pass1
+    beq zero, zero, error
+pass1:
+    addi a0, a0, 1          # Éxito 1 (a0 = 1)
+
+    # PRUEBA 2: bne Falso (4 == 4) -> No Salta
+    addi t0, zero, 4
+    addi t1, zero, 4
+    bne t0, t1, error
+    addi a0, a0, 1          # Éxito 2 (a0 = 2)
+
+    # PRUEBA 3: blt Verdadero (-2 < 5) -> Salta
+    addi t0, zero, -2
+    addi t1, zero, 5
+    blt t0, t1, pass3
+    beq zero, zero, error
+pass3:
+    addi a0, a0, 1          # Éxito 3 (a0 = 3)
+
+    # PRUEBA 4: blt Falso (7 no es < 3) -> No Salta
+    addi t0, zero, 7
+    addi t1, zero, 3
+    blt t0, t1, error
+    addi a0, a0, 1          # Éxito 4 (a0 = 4)
+
+    # PRUEBA 5: bge Verdadero (10 >= 10) -> Salta
+    addi t0, zero, 10
+    addi t1, zero, 10
+    bge t0, t1, pass5
+    beq zero, zero, error
+pass5:
+    addi a0, a0, 1          # Éxito 5 (a0 = 5)
+
+    # PRUEBA 6: bge Falso (1 no es >= 9) -> No Salta
+    addi t0, zero, 1
+    addi t1, zero, 9
+    bge t0, t1, error
+    addi a0, a0, 1          # Éxito 6 (a0 = 6)
+
+    # PRUEBA 7: jalr
+    jal ra, test_jalr
+
+final:
+    # Mostramos los 7 éxitos en los LEDs (0x007 = 0000000111)
+    sw a0, 0(s0)
+    beq zero, zero, final   # Loop Infinito
+
+error:
+    # Muestra el número de prueba en la que falló (0 a 6)
+    sw a0, 0(s0)
+    beq zero, zero, error
+
+test_jalr:
+    addi a0, a0, 1          # Éxito 7 (a0 = 7)
+    jalr zero, 0(ra)        # Retorna directo a 'final'
+
+.data
+LEDs: .dc.l 0xFF200000
