@@ -11,7 +11,7 @@ cModel Technology
 Z0 dD:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/simulation/questa
 vadder
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-Z2 !s110 1794699497
+Z2 !s110 1795032688
 !i10b 1
 !s100 dTVW:UXkb?Fc:iUSZ1n:n2
 Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -28,7 +28,7 @@ Z6 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z7 !s108 1794699497.000000
+Z7 !s108 1795032688.000000
 !s107 D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/adder.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo|D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/adder.sv|
 !i113 1
@@ -63,7 +63,7 @@ R9
 R10
 valudec
 R1
-Z12 !s110 1794699498
+Z12 !s110 1795032691
 !i10b 1
 !s100 S5PWWkLRQ>M8CMATdj:Tn3
 R3
@@ -80,7 +80,7 @@ R6
 r1
 !s85 0
 31
-Z13 !s108 1794699498.000000
+Z13 !s108 1795032691.000000
 !s107 D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/aludec.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo|D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/aludec.sv|
 !i113 1
@@ -141,7 +141,7 @@ R9
 R10
 vextend
 R1
-!s110 1794699496
+R2
 !i10b 1
 !s100 l9_1Zz[RZjohQaTJBlL5J2
 R3
@@ -158,7 +158,7 @@ R6
 r1
 !s85 0
 31
-Z14 !s108 1794699495.000000
+Z14 !s108 1795032687.000000
 !s107 D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/extend.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo|D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/extend.sv|
 !i113 1
@@ -167,7 +167,7 @@ R9
 R10
 vflopr
 R1
-Z15 !s110 1794699495
+Z15 !s110 1795032687
 !i10b 1
 !s100 >Gf?dV4lK@G^MEz8M835J2
 R3
@@ -219,7 +219,7 @@ R9
 R10
 vmem
 R1
-!s110 1794699494
+R15
 !i10b 1
 !s100 h]_J?@1fmHC4fC:18dWjk2
 R3
@@ -236,7 +236,7 @@ R6
 r1
 !s85 0
 31
-!s108 1794699494.000000
+!s108 1795032686.000000
 !s107 D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo|D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.sv|
 !i113 1
@@ -323,7 +323,7 @@ R9
 R10
 vriscvsingle
 R1
-R2
+R12
 !i10b 1
 !s100 dE;U:>E2L5]G1N6_Y^EOF3
 R3
@@ -340,7 +340,7 @@ R6
 r1
 !s85 0
 31
-R7
+R13
 !s107 D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo|D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv|
 !i113 1
@@ -349,7 +349,7 @@ R9
 R10
 vtestbench_peripherals
 R1
-!s110 1794699503
+!s110 1795032700
 !i10b 1
 !s100 gGOQPNWObUWQzM?WEVg][3
 R3
@@ -366,7 +366,7 @@ R6
 r1
 !s85 0
 31
-!s108 1794699503.000000
+!s108 1795032700.000000
 !s107 D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/testbench_peripherals.sv|
 !s90 -reportprogress|300|-work|work|D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/testbench_peripherals.sv|
 !i113 1

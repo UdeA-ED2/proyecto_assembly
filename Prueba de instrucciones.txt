@@ -1,68 +1,77 @@
 .global _start
 _start:
-    addi a0, zero, 0        # Inicializar a0 = 0 (contador de pruebas exitosas)
-    la s0, LEDs             # Cargar dirección en memoria de la etiqueta LEDs
-    lw s0, 0(s0)            # Leer el valor 0xFF200000 desde esa dirección -> s0 = 0xFF200000
-    sw a0, 0(s0)            # Inicializar LEDs en 0
+    addi a0, zero, 0        # Todos los LEDs empiezan apagados (0000000000)
+    la s0, LEDs
+    lw s0, 0(s0)            # s0 = 0xFF200000
+    sw a0, 0(s0)            # Limpia la X inicial en los LEDs
 
-    # PRUEBA 1: bne Verdadero (5 != 3) -> Salta
+    # --- PRUEBA 1: bne Verdadero (5 != 3) -> Controla LED[0] (+1) ---
     addi t0, zero, 5
     addi t1, zero, 3
-    bne t0, t1, pass1
-    beq zero, zero, error
+    bne t0, t1, pass1       # Si funciona, salta a encender LED[0]
+    beq zero, zero, next1   # Si falla, salta el encendido (LED[0] queda en 0)
 pass1:
-    addi a0, a0, 1          # Éxito 1 (a0 = 1)
+    addi a0, a0, 1          # Enciende LED[0]
+next1:
+    sw a0, 0(s0)            # Actualiza LEDs en tiempo real
 
-    # PRUEBA 2: bne Falso (4 == 4) -> No Salta
+    # --- PRUEBA 2: bne Falso (4 == 4) -> Controla LED[1] (+2) ---
     addi t0, zero, 4
     addi t1, zero, 4
-    bne t0, t1, error
-    addi a0, a0, 1          # Éxito 2 (a0 = 2)
+    bne t0, t1, next2       # Si falla (salta cuando son iguales), LED[1] queda en 0
+    addi a0, a0, 2          # Si funciona (no salta), enciende LED[1]
+next2:
+    sw a0, 0(s0)
 
-    # PRUEBA 3: blt Verdadero (-2 < 5) -> Salta
+    # --- PRUEBA 3: blt Verdadero (-2 < 5) -> Controla LED[2] (+4) ---
     addi t0, zero, -2
     addi t1, zero, 5
-    blt t0, t1, pass3
-    beq zero, zero, error
+    blt t0, t1, pass3       # Si funciona, salta a encender LED[2]
+    beq zero, zero, next3   # Si falla, LED[2] queda apagado (0)
 pass3:
-    addi a0, a0, 1          # Éxito 3 (a0 = 3)
+    addi a0, a0, 4          # Enciende LED[2]
+next3:
+    sw a0, 0(s0)
 
-    # PRUEBA 4: blt Falso (7 no es < 3) -> No Salta
+    # --- PRUEBA 4: blt Falso (7 < 3) -> Controla LED[3] (+8) ---
     addi t0, zero, 7
     addi t1, zero, 3
-    blt t0, t1, error
-    addi a0, a0, 1          # Éxito 4 (a0 = 4)
+    blt t0, t1, next4       # Si falla (salta), LED[3] queda en 0
+    addi a0, a0, 8          # Si funciona (no salta), enciende LED[3]
+next4:
+    sw a0, 0(s0)
 
-    # PRUEBA 5: bge Verdadero (10 >= 10) -> Salta
+    # --- PRUEBA 5: bge Verdadero (10 >= 10) -> Controla LED[4] (+16) ---
     addi t0, zero, 10
     addi t1, zero, 10
-    bge t0, t1, pass5
-    beq zero, zero, error
+    bge t0, t1, pass5       # Si funciona, salta a encender LED[4]
+    beq zero, zero, next5   # Si falla, LED[4] queda en 0
 pass5:
-    addi a0, a0, 1          # Éxito 5 (a0 = 5)
+    addi a0, a0, 16         # Enciende LED[4]
+next5:
+    sw a0, 0(s0)
 
-    # PRUEBA 6: bge Falso (1 no es >= 9) -> No Salta
+    # --- PRUEBA 6: bge Falso (1 >= 9) -> Controla LED[5] (+32) ---
     addi t0, zero, 1
     addi t1, zero, 9
-    bge t0, t1, error
-    addi a0, a0, 1          # Éxito 6 (a0 = 6)
+    bge t0, t1, next6       # Si falla (salta), LED[5] queda en 0
+    addi a0, a0, 32         # Si funciona (no salta), enciende LED[5]
+next6:
+    sw a0, 0(s0)
 
-    # PRUEBA 7: jalr
-    jal ra, test_jalr
+    # --- PRUEBA 7: jalr -> Controla LED[6] (+64) ---
+    addi t2, zero, 0        # t2 = 0 (aún no ha retornado)
+    jal ra, test_jalr       # Llama a la subrutina
+    beq t2, zero, final     # Si jalr falló y no ejecutó la subrutina, LED[6] queda en 0
+    addi a0, a0, 64         # Si jalr funcionó y retornó aquí, enciende LED[6]
 
 final:
-    # Mostramos los 7 éxitos en los LEDs (0x007 = 0000000111)
-    sw a0, 0(s0)
-    beq zero, zero, final   # Loop Infinito
-
-error:
-    # Muestra el número de prueba en la que falló (0 a 6)
-    sw a0, 0(s0)
-    beq zero, zero, error
+    sw a0, 0(s0)            # Muestra el estado final de todos los LEDs
+    beq zero, zero, final   # Loop infinito
 
 test_jalr:
-    addi a0, a0, 1          # Éxito 7 (a0 = 7)
-    jalr zero, 0(ra)        # Retorna directo a 'final'
+    addi t2, zero, 1        # Confirma entrada a la subrutina
+    jalr zero, 0(ra)        # Retorna justo al 'beq t2, zero, final'
 
 .data
 LEDs: .dc.l 0xFF200000

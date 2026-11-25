@@ -1,0 +1,274 @@
+# Reading pref.tcl
+# do top_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
+# vmap work rtl_work 
+# Copying C:/intelFPGA_lite/23.1std/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_pkg.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:28:41 on Nov 25,2026
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo" C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_pkg.sv 
+# -- Compiling package fpu_pkg
+# 
+# Top level modules:
+# 	--none--
+# End time: 13:28:41 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_unpack.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:28:42 on Nov 25,2026
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo" C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_unpack.sv 
+# -- Compiling module fpu_unpack
+# 
+# Top level modules:
+# 	fpu_unpack
+# End time: 13:28:42 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_alu.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:28:42 on Nov 25,2026
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo" C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_alu.sv 
+# -- Compiling module fpu_alu
+# -- Importing package fpu_pkg
+# 
+# Top level modules:
+# 	fpu_alu
+# End time: 13:28:42 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_i2f.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:28:42 on Nov 25,2026
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo" C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_i2f.sv 
+# -- Compiling module fpu_i2f
+# -- Importing package fpu_pkg
+# 
+# Top level modules:
+# 	fpu_i2f
+# End time: 13:28:42 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_f2i.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:28:42 on Nov 25,2026
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo" C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_f2i.sv 
+# -- Compiling module fpu_f2i
+# -- Importing package fpu_pkg
+# 
+# Top level modules:
+# 	fpu_f2i
+# End time: 13:28:42 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_mul.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:28:42 on Nov 25,2026
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo" C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_mul.sv 
+# -- Compiling module fpu_mul
+# -- Importing package fpu_pkg
+# 
+# Top level modules:
+# 	fpu_mul
+# End time: 13:28:42 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_div.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:28:42 on Nov 25,2026
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo" C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_div.sv 
+# -- Compiling module fpu_div
+# -- Importing package fpu_pkg
+# 
+# Top level modules:
+# 	fpu_div
+# End time: 13:28:42 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_add_sub.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:28:42 on Nov 25,2026
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo" C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/fpu_add_sub.sv 
+# -- Compiling module fpu_add_sub
+# -- Importing package fpu_pkg
+# 
+# Top level modules:
+# 	fpu_add_sub
+# End time: 13:28:42 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+run -all
+# No Design Loaded!
+vlog -reportprogress 300 -work work C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/tb_fpu_alu.sv
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:29:45 on Nov 25,2026
+# vlog -reportprogress 300 -work work C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/tb_fpu_alu.sv 
+# -- Compiling module tb_fpu_alu
+# -- Importing package fpu_pkg
+# 
+# Top level modules:
+# 	tb_fpu_alu
+# End time: 13:29:45 on Nov 25,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -gui -l msim_transcript work.tb_fpu_alu -L altera_mf
+# vsim -gui -l msim_transcript work.tb_fpu_alu -L altera_mf 
+# Start time: 13:30:06 on Nov 25,2026
+# Loading sv_std.std
+# Loading work.fpu_pkg
+# Loading work.tb_fpu_alu
+# Loading work.fpu_alu
+# Loading work.fpu_unpack
+# Loading work.fpu_add_sub
+# Loading work.fpu_mul
+# Loading work.fpu_div
+# Loading work.fpu_f2i
+# Loading work.fpu_i2f
+run
+# =========================================================================
+#  INICIANDO SIMULACION DE VERIFICACION - FPU IEEE-754 SINGLE PRECISION
+# =========================================================================
+run -all
+# [PASS] Prueba  1 | ADD (Suma)           | Pos + Pos: 12.5 + 3.25 = 15.75 -> Res: 0x417c0000
+# [PASS] Prueba  2 | ADD (Suma)           | Neg + Neg: -9.5 + -4.25 = -13.75 -> Res: 0xc15c0000
+# [PASS] Prueba  3 | ADD (Suma)           | Neg + Pos: -45.5 + 20.25 = -25.25 -> Res: 0xc1ca0000
+# [PASS] Prueba  4 | ADD (Suma)           | Pequenos: 0.125 + 0.0625 = 0.1875 -> Res: 0x3e400000
+# [PASS] Prueba  5 | ADD (Suma)           | 5 decimales: 0.00001 + 0.00002 -> Res: 0x37fba882
+# [PASS] Prueba  6 | ADD (Suma)           | Gran magnitud: 1000000.5 + 500000.25 -> Res: 0x49b71b06
+# [PASS] Prueba  7 | ADD (Suma)           | Con cero: 50.12345 + 0.0 -> Res: 0x42487e6a
+# [PASS] Prueba  8 | ADD (Suma)           | Resultado cero: 7.5 + (-7.5) = 0.0 -> Res: 0x00000000
+# [PASS] Prueba  9 | ADD (Suma)           | Limite cercano: 2147483520.0 + 127.0 -> Res: 0x4effffff
+# [PASS] Prueba 10 | ADD (Suma)           | Infinito: +Inf + 100.0 = +Inf -> Res: 0x7f800000
+# [PASS] Prueba 11 | ADD (Suma)           | Indeterminacion NaN: +Inf + (-Inf) -> Res: 0x7fc00000
+# [PASS] Prueba 12 | SUB (Resta)          | Pos - Pos (neg): 50.25 - 100.75 = -50.5 -> Res: 0xc24a0000
+# [PASS] Prueba 13 | SUB (Resta)          | Cancelacion: 5.0 - 4.5 = 0.5 -> Res: 0x3f000000
+# [PASS] Prueba 14 | SUB (Resta)          | Neg - Pos: -10.5 - 4.5 = -15.0 -> Res: 0xc1700000
+# [PASS] Prueba 15 | SUB (Resta)          | Con cero: 100.5 - 0.0 = 100.5 -> Res: 0x42c90000
+# [PASS] Prueba 16 | SUB (Resta)          | Resultado cero: 123.45 - 123.45 = 0.0 -> Res: 0x00000000
+# [PASS] Prueba 17 | SUB (Resta)          | Indeterminacion NaN: +Inf - (+Inf) -> Res: 0x7fc00000
+# [PASS] Prueba 18 | MUL (Multiplicacion) | Pos * Pos: 12.5 * 4.0 = 50.0 -> Res: 0x42480000
+# [PASS] Prueba 19 | MUL (Multiplicacion) | Neg * Pos: -3.0 * 2.5 = -7.5 -> Res: 0xc0f00000
+# [PASS] Prueba 20 | MUL (Multiplicacion) | Neg * Neg: -1.5 * -1.5 = 2.25 -> Res: 0x40100000
+# [PASS] Prueba 21 | MUL (Multiplicacion) | Pequenos: 0.5 * 0.25 = 0.125 -> Res: 0x3e000000
+# [PASS] Prueba 22 | MUL (Multiplicacion) | Gran magnitud: 100000.0 * 20000.0 = 2e9 -> Res: 0x4eee6b28
+# [PASS] Prueba 23 | MUL (Multiplicacion) | Resultado cero: 1000.0 * 0.0 = 0.0 -> Res: 0x00000000
+# [PASS] Prueba 24 | MUL (Multiplicacion) | Signo cero: -0.0 * 5.0 = -0.0 -> Res: 0x80000000
+# [PASS] Prueba 25 | MUL (Multiplicacion) | Infinito: -Inf * 2.0 = -Inf -> Res: 0xff800000
+# [PASS] Prueba 26 | MUL (Multiplicacion) | Indeterminacion NaN: 0.0 * +Inf -> Res: 0x7fc00000
+# [PASS] Prueba 27 | DIV (Division)       | Pos / Pos: 100.0 / 8.0 = 12.5 -> Res: 0x41480000
+# [PASS] Prueba 28 | DIV (Division)       | Neg / Pos: -6.0 / 2.0 = -3.0 -> Res: 0xc0400000
+# [PASS] Prueba 29 | DIV (Division)       | Fraccion < 1: 1.0 / 4.0 = 0.25 -> Res: 0x3e800000
+# [PASS] Prueba 30 | DIV (Division)       | Cero / Neg: 0.0 / -5.0 = -0.0 -> Res: 0x80000000
+# [PASS] Prueba 31 | DIV (Division)       | Div por cero (+): 50.12345 / 0.0 = +Inf -> Res: 0x7f800000
+# [PASS] Prueba 32 | DIV (Division)       | Div por cero (-): -10.0 / 0.0 = -Inf -> Res: 0xff800000
+# [PASS] Prueba 33 | DIV (Division)       | Indeterminacion NaN: 0.0 / 0.0 -> Res: 0x7fc00000
+# [PASS] Prueba 34 | DIV (Division)       | Indeterminacion NaN: +Inf / -Inf -> Res: 0x7fc00000
+# [PASS] Prueba 35 | F2I (Float -> Int)   | Truncamiento pos: 12.75 -> 12 -> Res: 0x0000000c
+# [PASS] Prueba 36 | F2I (Float -> Int)   | Truncamiento neg: -9.5 -> -9 -> Res: 0xfffffff7
+# [PASS] Prueba 37 | F2I (Float -> Int)   | Menor a 1: 0.99999 -> 0 -> Res: 0x00000000
+# [PASS] Prueba 38 | F2I (Float -> Int)   | Negativo > -1: -0.75 -> 0 -> Res: 0x00000000
+# [PASS] Prueba 39 | F2I (Float -> Int)   | Cero negativo: -0.0 -> 0 -> Res: 0x00000000
+# [PASS] Prueba 40 | F2I (Float -> Int)   | Limite max exacto: 2147483520.0 -> Res: 0x7fffff80
+# [PASS] Prueba 41 | F2I (Float -> Int)   | Limite min exacto: -2147483648.0 -> Res: 0x80000000
+# [PASS] Prueba 42 | F2I (Float -> Int)   | Saturacion > INT_MAX: 3.0e9 -> 0x7FFFFFFF -> Res: 0x7fffffff
+# [PASS] Prueba 43 | F2I (Float -> Int)   | Saturacion < INT_MIN: -3.0e9 -> 0x80000000 -> Res: 0x80000000
+# [PASS] Prueba 44 | F2I (Float -> Int)   | Saturacion +Inf -> 0x7FFFFFFF -> Res: 0x7fffffff
+# [PASS] Prueba 45 | F2I (Float -> Int)   | Saturacion -Inf -> 0x80000000 -> Res: 0x80000000
+# [PASS] Prueba 46 | F2I (Float -> Int)   | NaN -> 0x7FFFFFFF (Regla RISC-V) -> Res: 0x7fffffff
+# [PASS] Prueba 47 | I2F (Int -> Float)   | Cero: 0 -> 0.0 -> Res: 0x00000000
+# [PASS] Prueba 48 | I2F (Int -> Float)   | Unidad: 1 -> 1.0 -> Res: 0x3f800000
+# [PASS] Prueba 49 | I2F (Int -> Float)   | Negativo: -9 -> -9.0 -> Res: 0xc1100000
+# [PASS] Prueba 50 | I2F (Int -> Float)   | Potencia de 2: 1024 -> 1024.0 -> Res: 0x44800000
+# [PASS] Prueba 51 | I2F (Int -> Float)   | Limite max: 2147483647 -> 2147483520.0 -> Res: 0x4effffff
+# [PASS] Prueba 52 | I2F (Int -> Float)   | Limite min: -2147483648 -> -2147483648.0 -> Res: 0xcf000000
+# =========================================================================
+#  RESUMEN FINAL DE PRUEBAS:
+#    Total ejecutadas : 52
+#    Pruebas aprobadas: 52
+#    Pruebas fallidas : 0
+# =========================================================================
+#  RESULTADO GLOBAL: TODAS LAS PRUEBAS PASARON EXITOSAMENTE.
+# ** Note: $stop    : C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/tb_fpu_alu.sv(179)
+#    Time: 530 ns  Iteration: 0  Instance: /tb_fpu_alu
+# Break in Module tb_fpu_alu at C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/tb_fpu_alu.sv line 179
+run
+run -all
+run -all
+run -all
+run -all
+run -all
+run -all
+run -all
+run -all
+run
+restart
+run -all
+# GetModuleFileName: The specified module could not be found.
+# 
+# 
+# =========================================================================
+#  INICIANDO SIMULACION DE VERIFICACION - FPU IEEE-754 SINGLE PRECISION
+# =========================================================================
+# [PASS] Prueba  1 | ADD (Suma)           | Pos + Pos: 12.5 + 3.25 = 15.75 -> Res: 0x417c0000
+# [PASS] Prueba  2 | ADD (Suma)           | Neg + Neg: -9.5 + -4.25 = -13.75 -> Res: 0xc15c0000
+# [PASS] Prueba  3 | ADD (Suma)           | Neg + Pos: -45.5 + 20.25 = -25.25 -> Res: 0xc1ca0000
+# [PASS] Prueba  4 | ADD (Suma)           | Pequenos: 0.125 + 0.0625 = 0.1875 -> Res: 0x3e400000
+# [PASS] Prueba  5 | ADD (Suma)           | 5 decimales: 0.00001 + 0.00002 -> Res: 0x37fba882
+# [PASS] Prueba  6 | ADD (Suma)           | Gran magnitud: 1000000.5 + 500000.25 -> Res: 0x49b71b06
+# [PASS] Prueba  7 | ADD (Suma)           | Con cero: 50.12345 + 0.0 -> Res: 0x42487e6a
+# [PASS] Prueba  8 | ADD (Suma)           | Resultado cero: 7.5 + (-7.5) = 0.0 -> Res: 0x00000000
+# [PASS] Prueba  9 | ADD (Suma)           | Limite cercano: 2147483520.0 + 127.0 -> Res: 0x4effffff
+# [PASS] Prueba 10 | ADD (Suma)           | Infinito: +Inf + 100.0 = +Inf -> Res: 0x7f800000
+# [PASS] Prueba 11 | ADD (Suma)           | Indeterminacion NaN: +Inf + (-Inf) -> Res: 0x7fc00000
+# [PASS] Prueba 12 | SUB (Resta)          | Pos - Pos (neg): 50.25 - 100.75 = -50.5 -> Res: 0xc24a0000
+# [PASS] Prueba 13 | SUB (Resta)          | Cancelacion: 5.0 - 4.5 = 0.5 -> Res: 0x3f000000
+# [PASS] Prueba 14 | SUB (Resta)          | Neg - Pos: -10.5 - 4.5 = -15.0 -> Res: 0xc1700000
+# [PASS] Prueba 15 | SUB (Resta)          | Con cero: 100.5 - 0.0 = 100.5 -> Res: 0x42c90000
+# [PASS] Prueba 16 | SUB (Resta)          | Resultado cero: 123.45 - 123.45 = 0.0 -> Res: 0x00000000
+# [PASS] Prueba 17 | SUB (Resta)          | Indeterminacion NaN: +Inf - (+Inf) -> Res: 0x7fc00000
+# [PASS] Prueba 18 | MUL (Multiplicacion) | Pos * Pos: 12.5 * 4.0 = 50.0 -> Res: 0x42480000
+# [PASS] Prueba 19 | MUL (Multiplicacion) | Neg * Pos: -3.0 * 2.5 = -7.5 -> Res: 0xc0f00000
+# [PASS] Prueba 20 | MUL (Multiplicacion) | Neg * Neg: -1.5 * -1.5 = 2.25 -> Res: 0x40100000
+# [PASS] Prueba 21 | MUL (Multiplicacion) | Pequenos: 0.5 * 0.25 = 0.125 -> Res: 0x3e000000
+# [PASS] Prueba 22 | MUL (Multiplicacion) | Gran magnitud: 100000.0 * 20000.0 = 2e9 -> Res: 0x4eee6b28
+# [PASS] Prueba 23 | MUL (Multiplicacion) | Resultado cero: 1000.0 * 0.0 = 0.0 -> Res: 0x00000000
+# [PASS] Prueba 24 | MUL (Multiplicacion) | Signo cero: -0.0 * 5.0 = -0.0 -> Res: 0x80000000
+# [PASS] Prueba 25 | MUL (Multiplicacion) | Infinito: -Inf * 2.0 = -Inf -> Res: 0xff800000
+# [PASS] Prueba 26 | MUL (Multiplicacion) | Indeterminacion NaN: 0.0 * +Inf -> Res: 0x7fc00000
+# [PASS] Prueba 27 | DIV (Division)       | Pos / Pos: 100.0 / 8.0 = 12.5 -> Res: 0x41480000
+# [PASS] Prueba 28 | DIV (Division)       | Neg / Pos: -6.0 / 2.0 = -3.0 -> Res: 0xc0400000
+# [PASS] Prueba 29 | DIV (Division)       | Fraccion < 1: 1.0 / 4.0 = 0.25 -> Res: 0x3e800000
+# [PASS] Prueba 30 | DIV (Division)       | Cero / Neg: 0.0 / -5.0 = -0.0 -> Res: 0x80000000
+# [PASS] Prueba 31 | DIV (Division)       | Div por cero (+): 50.12345 / 0.0 = +Inf -> Res: 0x7f800000
+# [PASS] Prueba 32 | DIV (Division)       | Div por cero (-): -10.0 / 0.0 = -Inf -> Res: 0xff800000
+# [PASS] Prueba 33 | DIV (Division)       | Indeterminacion NaN: 0.0 / 0.0 -> Res: 0x7fc00000
+# [PASS] Prueba 34 | DIV (Division)       | Indeterminacion NaN: +Inf / -Inf -> Res: 0x7fc00000
+# [PASS] Prueba 35 | F2I (Float -> Int)   | Truncamiento pos: 12.75 -> 12 -> Res: 0x0000000c
+# [PASS] Prueba 36 | F2I (Float -> Int)   | Truncamiento neg: -9.5 -> -9 -> Res: 0xfffffff7
+# [PASS] Prueba 37 | F2I (Float -> Int)   | Menor a 1: 0.99999 -> 0 -> Res: 0x00000000
+# [PASS] Prueba 38 | F2I (Float -> Int)   | Negativo > -1: -0.75 -> 0 -> Res: 0x00000000
+# [PASS] Prueba 39 | F2I (Float -> Int)   | Cero negativo: -0.0 -> 0 -> Res: 0x00000000
+# [PASS] Prueba 40 | F2I (Float -> Int)   | Limite max exacto: 2147483520.0 -> Res: 0x7fffff80
+# [PASS] Prueba 41 | F2I (Float -> Int)   | Limite min exacto: -2147483648.0 -> Res: 0x80000000
+# [PASS] Prueba 42 | F2I (Float -> Int)   | Saturacion > INT_MAX: 3.0e9 -> 0x7FFFFFFF -> Res: 0x7fffffff
+# [PASS] Prueba 43 | F2I (Float -> Int)   | Saturacion < INT_MIN: -3.0e9 -> 0x80000000 -> Res: 0x80000000
+# [PASS] Prueba 44 | F2I (Float -> Int)   | Saturacion +Inf -> 0x7FFFFFFF -> Res: 0x7fffffff
+# [PASS] Prueba 45 | F2I (Float -> Int)   | Saturacion -Inf -> 0x80000000 -> Res: 0x80000000
+# [PASS] Prueba 46 | F2I (Float -> Int)   | NaN -> 0x7FFFFFFF (Regla RISC-V) -> Res: 0x7fffffff
+# [PASS] Prueba 47 | I2F (Int -> Float)   | Cero: 0 -> 0.0 -> Res: 0x00000000
+# [PASS] Prueba 48 | I2F (Int -> Float)   | Unidad: 1 -> 1.0 -> Res: 0x3f800000
+# [PASS] Prueba 49 | I2F (Int -> Float)   | Negativo: -9 -> -9.0 -> Res: 0xc1100000
+# [PASS] Prueba 50 | I2F (Int -> Float)   | Potencia de 2: 1024 -> 1024.0 -> Res: 0x44800000
+# [PASS] Prueba 51 | I2F (Int -> Float)   | Limite max: 2147483647 -> 2147483520.0 -> Res: 0x4effffff
+# [PASS] Prueba 52 | I2F (Int -> Float)   | Limite min: -2147483648 -> -2147483648.0 -> Res: 0xcf000000
+# =========================================================================
+#  RESUMEN FINAL DE PRUEBAS:
+#    Total ejecutadas : 52
+#    Pruebas aprobadas: 52
+#    Pruebas fallidas : 0
+# =========================================================================
+#  RESULTADO GLOBAL: TODAS LAS PRUEBAS PASARON EXITOSAMENTE.
+# ** Note: $stop    : C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/tb_fpu_alu.sv(179)
+#    Time: 530 ns  Iteration: 0  Instance: /tb_fpu_alu
+# Break in Module tb_fpu_alu at C:/Users/Julia/Downloads/RiscV-SystemVerilog/ProcesadorUniciclo/tb_fpu_alu.sv line 179
+# End time: 15:13:25 on Nov 25,2026, Elapsed time: 1:43:19
+# Errors: 0, Warnings: 0

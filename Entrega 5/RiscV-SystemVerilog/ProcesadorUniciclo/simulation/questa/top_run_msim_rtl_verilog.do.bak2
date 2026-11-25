@@ -1,0 +1,22 @@
+transcript on
+if {[file exists rtl_work]} {
+	vdel -lib rtl_work -all
+}
+vlib rtl_work
+vmap work rtl_work
+
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/mem.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/top.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/regfile.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/mux2.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/flopr.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/extend.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/datapath.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/controller.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/alu.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/adder.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/riscvsingle.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/maindec.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/aludec.sv}
+vlog -sv -work work +incdir+C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo {C:/Users/Julia/Downloads/RiscV-SystemVerilog/RiscV-SystemVerilog/ProcesadorUniciclo/mux3.sv}
+
