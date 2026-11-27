@@ -1,7 +1,7 @@
 import sys
 
 WIDTH = 32
-DEPTH = 64
+DEPTH = 304
 
 def generate_mif(input_hex_file, output_mif_file):
     # Read hex file
