@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Wed Nov 18 15:19:48 2026
+Fri Nov 27 17:36:56 2026
 Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
 
 
@@ -14,24 +14,31 @@ Quartus Prime Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis RAM Summary
-  9. General Register Statistics
- 10. Multiplexer Restructuring Statistics (Restructuring Performed)
- 11. Source assignments for mem:mem|altsyncram:u_mem|altsyncram_vlt:auto_generated
- 12. Parameter Settings for User Entity Instance: mem:mem
- 13. Parameter Settings for User Entity Instance: mem:mem|altsyncram:u_mem
- 14. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|flopr:pcreg
- 15. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux3:pcmux
- 16. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux2:srcbmux
- 17. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux3:resultmux
- 18. Parameter Settings for User Entity Instance: flopr:resetReg
- 19. altsyncram Parameter Settings by Entity Instance
- 20. Port Connectivity Checks: "flopr:resetReg"
- 21. Port Connectivity Checks: "riscvsingle:rvsingle|datapath:dp|adder:pcadd4"
- 22. Port Connectivity Checks: "riscvsingle:rvsingle|controller:c"
- 23. Post-Synthesis Netlist Statistics for Top Partition
- 24. Elapsed Time Per Partition
- 25. Analysis & Synthesis Messages
- 26. Analysis & Synthesis Suppressed Messages
+  9. Analysis & Synthesis DSP Block Usage Summary
+ 10. General Register Statistics
+ 11. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 12. Source assignments for mem:mem|altsyncram:u_mem|altsyncram_vlt:auto_generated
+ 13. Parameter Settings for User Entity Instance: mem:mem
+ 14. Parameter Settings for User Entity Instance: mem:mem|altsyncram:u_mem
+ 15. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|flopr:pcreg
+ 16. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux3:pcmux
+ 17. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux2:srcbmux
+ 18. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux2:fpusrcamux
+ 19. Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux2:fresultmux
+ 20. Parameter Settings for User Entity Instance: flopr:resetReg
+ 21. Parameter Settings for Inferred Entity Instance: riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0
+ 22. Parameter Settings for Inferred Entity Instance: riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0
+ 23. altsyncram Parameter Settings by Entity Instance
+ 24. lpm_mult Parameter Settings by Entity Instance
+ 25. Port Connectivity Checks: "flopr:resetReg"
+ 26. Port Connectivity Checks: "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_unpack:u_unpack_b"
+ 27. Port Connectivity Checks: "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_unpack:u_unpack_a"
+ 28. Port Connectivity Checks: "riscvsingle:rvsingle|datapath:dp|adder:pcadd4"
+ 29. Port Connectivity Checks: "riscvsingle:rvsingle|controller:c"
+ 30. Post-Synthesis Netlist Statistics for Top Partition
+ 31. Elapsed Time Per Partition
+ 32. Analysis & Synthesis Messages
+ 33. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -58,19 +65,19 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                        ;
 +------------------------------------+------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Nov 18 15:19:47 2026          ;
+; Analysis & Synthesis Status        ; Successful - Fri Nov 27 17:36:56 2026          ;
 ; Quartus Prime Version              ; 23.1std.1 Build 993 05/14/2024 SC Lite Edition ;
 ; Revision Name                      ; top                                            ;
 ; Top-level Entity Name              ; top                                            ;
 ; Family                             ; MAX 10                                         ;
-; Total logic elements               ; 3,044                                          ;
-;     Total combinational functions  ; 2,051                                          ;
-;     Dedicated logic registers      ; 1,067                                          ;
-; Total registers                    ; 1067                                           ;
+; Total logic elements               ; 8,928                                          ;
+;     Total combinational functions  ; 6,943                                          ;
+;     Dedicated logic registers      ; 2,091                                          ;
+; Total registers                    ; 2091                                           ;
 ; Total pins                         ; 22                                             ;
 ; Total virtual pins                 ; 0                                              ;
 ; Total memory bits                  ; 32,768                                         ;
-; Embedded Multiplier 9-bit elements ; 0                                              ;
+; Embedded Multiplier 9-bit elements ; 7                                              ;
 ; Total PLLs                         ; 0                                              ;
 ; UFM blocks                         ; 0                                              ;
 ; ADC blocks                         ; 0                                              ;
@@ -180,44 +187,67 @@ https://fpgasoftware.intel.com/eula.
 ;     Processor 3            ;   0.1%      ;
 ;     Processor 4            ;   0.1%      ;
 ;     Processor 5            ;   0.1%      ;
-;     Processor 6            ;   0.1%      ;
-;     Processor 7            ;   0.1%      ;
-;     Processor 8            ;   0.1%      ;
-;     Processors 9-10        ;   0.1%      ;
+;     Processor 6            ;   0.0%      ;
+;     Processor 7            ;   0.0%      ;
+;     Processors 8-10        ;   0.0%      ;
 +----------------------------+-------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                        ;
-+----------------------------------+-----------------+----------------------------------------+-------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                          ; Library ;
-+----------------------------------+-----------------+----------------------------------------+-------------------------------------------------------------------------------------------------------+---------+
-; mem.sv                           ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.sv                ;         ;
-; top.sv                           ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/top.sv                ;         ;
-; regfile.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/regfile.sv            ;         ;
-; mux2.sv                          ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mux2.sv               ;         ;
-; flopr.sv                         ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/flopr.sv              ;         ;
-; extend.sv                        ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/extend.sv             ;         ;
-; datapath.sv                      ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv           ;         ;
-; controller.sv                    ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/controller.sv         ;         ;
-; alu.sv                           ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/alu.sv                ;         ;
-; adder.sv                         ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/adder.sv              ;         ;
-; riscvsingle.sv                   ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv        ;         ;
-; maindec.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/maindec.sv            ;         ;
-; aludec.sv                        ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/aludec.sv             ;         ;
-; mux3.sv                          ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mux3.sv               ;         ;
-; altsyncram.tdf                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altsyncram.tdf                              ;         ;
-; stratix_ram_block.inc            ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/stratix_ram_block.inc                       ;         ;
-; lpm_mux.inc                      ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_mux.inc                                 ;         ;
-; lpm_decode.inc                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_decode.inc                              ;         ;
-; aglobal231.inc                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/aglobal231.inc                              ;         ;
-; a_rdenreg.inc                    ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/a_rdenreg.inc                               ;         ;
-; altrom.inc                       ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altrom.inc                                  ;         ;
-; altram.inc                       ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altram.inc                                  ;         ;
-; altdpram.inc                     ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altdpram.inc                                ;         ;
-; db/altsyncram_vlt.tdf            ; yes             ; Auto-Generated Megafunction            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/altsyncram_vlt.tdf ;         ;
-; mem.mif                          ; yes             ; Auto-Found Memory Initialization File  ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.mif               ;         ;
-+----------------------------------+-----------------+----------------------------------------+-------------------------------------------------------------------------------------------------------+---------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                             ;
++----------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                              ; File Name with Absolute Path                                                                               ; Library ;
++----------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------+---------+
+; mem.sv                           ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.sv                     ;         ;
+; top.sv                           ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/top.sv                     ;         ;
+; regfile.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/regfile.sv                 ;         ;
+; mux2.sv                          ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mux2.sv                    ;         ;
+; flopr.sv                         ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/flopr.sv                   ;         ;
+; extend.sv                        ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/extend.sv                  ;         ;
+; datapath.sv                      ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv                ;         ;
+; controller.sv                    ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/controller.sv              ;         ;
+; alu.sv                           ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/alu.sv                     ;         ;
+; adder.sv                         ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/adder.sv                   ;         ;
+; riscvsingle.sv                   ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv             ;         ;
+; maindec.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/maindec.sv                 ;         ;
+; aludec.sv                        ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/aludec.sv                  ;         ;
+; mux3.sv                          ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mux3.sv                    ;         ;
+; fpu_alu.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_alu.sv                 ;         ;
+; fpu_pkg.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_pkg.sv                 ;         ;
+; fpu_unpack.sv                    ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_unpack.sv              ;         ;
+; fpu_i2f.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_i2f.sv                 ;         ;
+; fpu_f2i.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_f2i.sv                 ;         ;
+; fpu_mul.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_mul.sv                 ;         ;
+; fpu_div.sv                       ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_div.sv                 ;         ;
+; fpu_add_sub.sv                   ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_add_sub.sv             ;         ;
+; fregfile.sv                      ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fregfile.sv                ;         ;
+; fpudec.sv                        ; yes             ; User SystemVerilog HDL File            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpudec.sv                  ;         ;
+; altsyncram.tdf                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altsyncram.tdf                                   ;         ;
+; stratix_ram_block.inc            ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/stratix_ram_block.inc                            ;         ;
+; lpm_mux.inc                      ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_mux.inc                                      ;         ;
+; lpm_decode.inc                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_decode.inc                                   ;         ;
+; aglobal231.inc                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/aglobal231.inc                                   ;         ;
+; a_rdenreg.inc                    ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/a_rdenreg.inc                                    ;         ;
+; altrom.inc                       ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altrom.inc                                       ;         ;
+; altram.inc                       ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altram.inc                                       ;         ;
+; altdpram.inc                     ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altdpram.inc                                     ;         ;
+; db/altsyncram_vlt.tdf            ; yes             ; Auto-Generated Megafunction            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/altsyncram_vlt.tdf      ;         ;
+; mem.mif                          ; yes             ; Auto-Found Memory Initialization File  ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.mif                    ;         ;
+; lpm_mult.tdf                     ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_mult.tdf                                     ;         ;
+; lpm_add_sub.inc                  ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_add_sub.inc                                  ;         ;
+; multcore.inc                     ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/multcore.inc                                     ;         ;
+; bypassff.inc                     ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/bypassff.inc                                     ;         ;
+; altshift.inc                     ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altshift.inc                                     ;         ;
+; db/mult_1os.tdf                  ; yes             ; Auto-Generated Megafunction            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/mult_1os.tdf            ;         ;
+; lpm_divide.tdf                   ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/lpm_divide.tdf                                   ;         ;
+; abs_divider.inc                  ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/abs_divider.inc                                  ;         ;
+; sign_div_unsign.inc              ; yes             ; Megafunction                           ; c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/sign_div_unsign.inc                              ;         ;
+; db/lpm_divide_evl.tdf            ; yes             ; Auto-Generated Megafunction            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/lpm_divide_evl.tdf      ;         ;
+; db/sign_div_unsign_gnh.tdf       ; yes             ; Auto-Generated Megafunction            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/sign_div_unsign_gnh.tdf ;         ;
+; db/alt_u_div_ale.tdf             ; yes             ; Auto-Generated Megafunction            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/alt_u_div_ale.tdf       ;         ;
+; db/add_sub_t3c.tdf               ; yes             ; Auto-Generated Megafunction            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/add_sub_t3c.tdf         ;         ;
+; db/add_sub_u3c.tdf               ; yes             ; Auto-Generated Megafunction            ; D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/add_sub_u3c.tdf         ;         ;
++----------------------------------+-----------------+----------------------------------------+------------------------------------------------------------------------------------------------------------+---------+
 
 
 +---------------------------------------------------------+
@@ -225,59 +255,77 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------+-----------+
 ; Resource                                    ; Usage     ;
 +---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 3,044     ;
+; Estimated Total logic elements              ; 8,928     ;
 ;                                             ;           ;
-; Total combinational functions               ; 2051      ;
+; Total combinational functions               ; 6943      ;
 ; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 1729      ;
-;     -- 3 input functions                    ; 285       ;
-;     -- <=2 input functions                  ; 37        ;
+;     -- 4 input functions                    ; 4254      ;
+;     -- 3 input functions                    ; 2315      ;
+;     -- <=2 input functions                  ; 374       ;
 ;                                             ;           ;
 ; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 1959      ;
-;     -- arithmetic mode                      ; 92        ;
+;     -- normal mode                          ; 5689      ;
+;     -- arithmetic mode                      ; 1254      ;
 ;                                             ;           ;
-; Total registers                             ; 1067      ;
-;     -- Dedicated logic registers            ; 1067      ;
+; Total registers                             ; 2091      ;
+;     -- Dedicated logic registers            ; 2091      ;
 ;     -- I/O registers                        ; 0         ;
 ;                                             ;           ;
 ; I/O pins                                    ; 22        ;
 ; Total memory bits                           ; 32768     ;
 ;                                             ;           ;
-; Embedded Multiplier 9-bit elements          ; 0         ;
+; Embedded Multiplier 9-bit elements          ; 7         ;
 ;                                             ;           ;
 ; Maximum fan-out node                        ; clk~input ;
-; Maximum fan-out                             ; 1099      ;
-; Total fan-out                               ; 11854     ;
-; Average fan-out                             ; 3.71      ;
+; Maximum fan-out                             ; 2123      ;
+; Total fan-out                               ; 31776     ;
+; Average fan-out                             ; 3.48      ;
 +---------------------------------------------+-----------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                         ;
-+------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+-------------------------------------------------------------+----------------+--------------+
-; Compilation Hierarchy Node               ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; UFM Blocks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; ADC blocks ; Full Hierarchy Name                                         ; Entity Name    ; Library Name ;
-+------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+-------------------------------------------------------------+----------------+--------------+
-; |top                                     ; 2051 (0)            ; 1067 (0)                  ; 32768       ; 0          ; 0            ; 0       ; 0         ; 22   ; 0            ; 0          ; |top                                                        ; top            ; work         ;
-;    |flopr:resetReg|                      ; 0 (0)               ; 1 (1)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|flopr:resetReg                                         ; flopr          ; work         ;
-;    |mem:mem|                             ; 24 (24)             ; 10 (10)                   ; 32768       ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|mem:mem                                                ; mem            ; work         ;
-;       |altsyncram:u_mem|                 ; 0 (0)               ; 0 (0)                     ; 32768       ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|mem:mem|altsyncram:u_mem                               ; altsyncram     ; work         ;
-;          |altsyncram_vlt:auto_generated| ; 0 (0)               ; 0 (0)                     ; 32768       ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|mem:mem|altsyncram:u_mem|altsyncram_vlt:auto_generated ; altsyncram_vlt ; work         ;
-;    |riscvsingle:rvsingle|                ; 2027 (0)            ; 1056 (0)                  ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle                                   ; riscvsingle    ; work         ;
-;       |controller:c|                     ; 24 (11)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|controller:c                      ; controller     ; work         ;
-;          |aludec:ad|                     ; 3 (3)               ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|controller:c|aludec:ad            ; aludec         ; work         ;
-;          |maindec:md|                    ; 10 (10)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|controller:c|maindec:md           ; maindec        ; work         ;
-;       |datapath:dp|                      ; 2003 (0)            ; 1056 (0)                  ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp                       ; datapath       ; work         ;
-;          |adder:pcadd4|                  ; 30 (30)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|adder:pcadd4          ; adder          ; work         ;
-;          |adder:pcaddbranch|             ; 32 (32)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|adder:pcaddbranch     ; adder          ; work         ;
-;          |alu:alu|                       ; 359 (359)           ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu               ; alu            ; work         ;
-;          |extend:ext|                    ; 18 (18)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|extend:ext            ; extend         ; work         ;
-;          |flopr:pcreg|                   ; 20 (20)             ; 32 (32)                   ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|flopr:pcreg           ; flopr          ; work         ;
-;          |mux2:srcbmux|                  ; 27 (27)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|mux2:srcbmux          ; mux2           ; work         ;
-;          |mux3:pcmux|                    ; 23 (23)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|mux3:pcmux            ; mux3           ; work         ;
-;          |mux3:resultmux|                ; 67 (67)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|mux3:resultmux        ; mux3           ; work         ;
-;          |regfile:rf|                    ; 1427 (1427)         ; 1024 (1024)               ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|regfile:rf            ; regfile        ; work         ;
-+------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+-------------------------------------------------------------+----------------+--------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                                                                                                                                                                                                                                                  ;
++----------------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
+; Compilation Hierarchy Node                         ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; UFM Blocks ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; ADC blocks ; Full Hierarchy Name                                                                                                                                                                   ; Entity Name         ; Library Name ;
++----------------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
+; |top                                               ; 6943 (0)            ; 2091 (0)                  ; 32768       ; 0          ; 7            ; 1       ; 3         ; 22   ; 0            ; 0          ; |top                                                                                                                                                                                  ; top                 ; work         ;
+;    |flopr:resetReg|                                ; 0 (0)               ; 1 (1)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|flopr:resetReg                                                                                                                                                                   ; flopr               ; work         ;
+;    |mem:mem|                                       ; 24 (24)             ; 10 (10)                   ; 32768       ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|mem:mem                                                                                                                                                                          ; mem                 ; work         ;
+;       |altsyncram:u_mem|                           ; 0 (0)               ; 0 (0)                     ; 32768       ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|mem:mem|altsyncram:u_mem                                                                                                                                                         ; altsyncram          ; work         ;
+;          |altsyncram_vlt:auto_generated|           ; 0 (0)               ; 0 (0)                     ; 32768       ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|mem:mem|altsyncram:u_mem|altsyncram_vlt:auto_generated                                                                                                                           ; altsyncram_vlt      ; work         ;
+;    |riscvsingle:rvsingle|                          ; 6919 (0)            ; 2080 (0)                  ; 0           ; 0          ; 7            ; 1       ; 3         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle                                                                                                                                                             ; riscvsingle         ; work         ;
+;       |controller:c|                               ; 44 (17)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|controller:c                                                                                                                                                ; controller          ; work         ;
+;          |aludec:ad|                               ; 4 (4)               ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|controller:c|aludec:ad                                                                                                                                      ; aludec              ; work         ;
+;          |fpudec:fd|                               ; 17 (17)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|controller:c|fpudec:fd                                                                                                                                      ; fpudec              ; work         ;
+;          |maindec:md|                              ; 6 (6)               ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|controller:c|maindec:md                                                                                                                                     ; maindec             ; work         ;
+;       |datapath:dp|                                ; 6875 (121)          ; 2080 (0)                  ; 0           ; 0          ; 7            ; 1       ; 3         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp                                                                                                                                                 ; datapath            ; work         ;
+;          |adder:pcadd4|                            ; 30 (30)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|adder:pcadd4                                                                                                                                    ; adder               ; work         ;
+;          |adder:pcaddbranch|                       ; 32 (32)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|adder:pcaddbranch                                                                                                                               ; adder               ; work         ;
+;          |alu:alu|                                 ; 329 (329)           ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu                                                                                                                                         ; alu                 ; work         ;
+;          |extend:ext|                              ; 18 (18)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|extend:ext                                                                                                                                      ; extend              ; work         ;
+;          |flopr:pcreg|                             ; 20 (20)             ; 32 (32)                   ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|flopr:pcreg                                                                                                                                     ; flopr               ; work         ;
+;          |fpu_alu:fpu|                             ; 3409 (305)          ; 0 (0)                     ; 0           ; 0          ; 7            ; 1       ; 3         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu                                                                                                                                     ; fpu_alu             ; work         ;
+;             |fpu_add_sub:u_add_sub|                ; 615 (615)           ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub                                                                                                               ; fpu_add_sub         ; work         ;
+;             |fpu_div:u_div|                        ; 1853 (62)           ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div                                                                                                                       ; fpu_div             ; work         ;
+;                |lpm_divide:Div0|                   ; 1791 (0)            ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0                                                                                                       ; lpm_divide          ; work         ;
+;                   |lpm_divide_evl:auto_generated|  ; 1791 (0)            ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0|lpm_divide_evl:auto_generated                                                                         ; lpm_divide_evl      ; work         ;
+;                      |sign_div_unsign_gnh:divider| ; 1791 (0)            ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0|lpm_divide_evl:auto_generated|sign_div_unsign_gnh:divider                                             ; sign_div_unsign_gnh ; work         ;
+;                         |alt_u_div_ale:divider|    ; 1791 (1790)         ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0|lpm_divide_evl:auto_generated|sign_div_unsign_gnh:divider|alt_u_div_ale:divider                       ; alt_u_div_ale       ; work         ;
+;                            |add_sub_u3c:add_sub_1| ; 1 (1)               ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0|lpm_divide_evl:auto_generated|sign_div_unsign_gnh:divider|alt_u_div_ale:divider|add_sub_u3c:add_sub_1 ; add_sub_u3c         ; work         ;
+;             |fpu_f2i:u_f2i|                        ; 318 (318)           ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i                                                                                                                       ; fpu_f2i             ; work         ;
+;             |fpu_i2f:u_i2f|                        ; 205 (205)           ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_i2f:u_i2f                                                                                                                       ; fpu_i2f             ; work         ;
+;             |fpu_mul:u_mul|                        ; 91 (36)             ; 0 (0)                     ; 0           ; 0          ; 7            ; 1       ; 3         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul                                                                                                                       ; fpu_mul             ; work         ;
+;                |lpm_mult:Mult0|                    ; 55 (0)              ; 0 (0)                     ; 0           ; 0          ; 7            ; 1       ; 3         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0                                                                                                        ; lpm_mult            ; work         ;
+;                   |mult_1os:auto_generated|        ; 55 (55)             ; 0 (0)                     ; 0           ; 0          ; 7            ; 1       ; 3         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0|mult_1os:auto_generated                                                                                ; mult_1os            ; work         ;
+;             |fpu_unpack:u_unpack_a|                ; 13 (13)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_unpack:u_unpack_a                                                                                                               ; fpu_unpack          ; work         ;
+;             |fpu_unpack:u_unpack_b|                ; 9 (9)               ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_unpack:u_unpack_b                                                                                                               ; fpu_unpack          ; work         ;
+;          |fregfile:frf|                            ; 1365 (1365)         ; 1024 (1024)               ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|fregfile:frf                                                                                                                                    ; fregfile            ; work         ;
+;          |mux2:fpusrcamux|                         ; 34 (34)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|mux2:fpusrcamux                                                                                                                                 ; mux2                ; work         ;
+;          |mux2:fresultmux|                         ; 32 (32)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|mux2:fresultmux                                                                                                                                 ; mux2                ; work         ;
+;          |mux2:srcbmux|                            ; 32 (32)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|mux2:srcbmux                                                                                                                                    ; mux2                ; work         ;
+;          |mux3:pcmux|                              ; 23 (23)             ; 0 (0)                     ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|mux3:pcmux                                                                                                                                      ; mux3                ; work         ;
+;          |regfile:rf|                              ; 1430 (1430)         ; 1024 (1024)               ; 0           ; 0          ; 0            ; 0       ; 0         ; 0    ; 0            ; 0          ; |top|riscvsingle:rvsingle|datapath:dp|regfile:rf                                                                                                                                      ; regfile             ; work         ;
++----------------------------------------------------+---------------------+---------------------------+-------------+------------+--------------+---------+-----------+------+--------------+------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
@@ -290,39 +338,82 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +-------------------------------------------------------------------+------+----------------+--------------+--------------+--------------+--------------+-------+---------+
 
 
++-----------------------------------------------------+
+; Analysis & Synthesis DSP Block Usage Summary        ;
++---------------------------------------+-------------+
+; Statistic                             ; Number Used ;
++---------------------------------------+-------------+
+; Simple Multipliers (9-bit)            ; 1           ;
+; Simple Multipliers (18-bit)           ; 3           ;
+; Embedded Multiplier Blocks            ; --          ;
+; Embedded Multiplier 9-bit elements    ; 7           ;
+; Signed Embedded Multipliers           ; 0           ;
+; Unsigned Embedded Multipliers         ; 4           ;
+; Mixed Sign Embedded Multipliers       ; 0           ;
+; Variable Sign Embedded Multipliers    ; 0           ;
+; Dedicated Input Shift Register Chains ; 0           ;
++---------------------------------------+-------------+
+Note: number of Embedded Multiplier Blocks used is only available after a successful fit.
+
+
 +------------------------------------------------------+
 ; General Register Statistics                          ;
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 1067  ;
+; Total registers                              ; 2091  ;
 ; Number of registers using Synchronous Clear  ; 0     ;
 ; Number of registers using Synchronous Load   ; 20    ;
 ; Number of registers using Asynchronous Clear ; 33    ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 1036  ;
+; Number of registers using Clock Enable       ; 2060  ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                           ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                 ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |top|riscvsingle:rvsingle|datapath:dp|flopr:pcreg|q[1]     ;
-; 3:1                ; 20 bits   ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; Yes        ; |top|riscvsingle:rvsingle|datapath:dp|flopr:pcreg|q[13]    ;
-; 4:1                ; 22 bits   ; 44 LEs        ; 44 LEs               ; 0 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|mux3:resultmux|y[26] ;
-; 4:1                ; 10 bits   ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|mux3:resultmux|y[1]  ;
-; 3:1                ; 10 bits   ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|mux3:pcmux|y[11]     ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 40 LEs               ; 16 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux22        ;
-; 11:1               ; 8 bits    ; 56 LEs        ; 40 LEs               ; 16 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux15        ;
-; 12:1               ; 4 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux25        ;
-; 12:1               ; 4 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux7         ;
-; 13:1               ; 2 bits    ; 16 LEs        ; 14 LEs               ; 2 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux28        ;
-; 13:1               ; 2 bits    ; 16 LEs        ; 14 LEs               ; 2 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux2         ;
-; 14:1               ; 2 bits    ; 18 LEs        ; 14 LEs               ; 4 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux0         ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                                        ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                              ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |top|riscvsingle:rvsingle|datapath:dp|flopr:pcreg|q[1]                                  ;
+; 3:1                ; 20 bits   ; 40 LEs        ; 40 LEs               ; 0 LEs                  ; Yes        ; |top|riscvsingle:rvsingle|datapath:dp|flopr:pcreg|q[22]                                 ;
+; 4:1                ; 11 bits   ; 22 LEs        ; 11 LEs               ; 11 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|m_small_ext[20] ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 20 LEs               ; 0 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|mux3:pcmux|y[4]                                   ;
+; 9:1                ; 22 bits   ; 132 LEs       ; 66 LEs               ; 66 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|Mux14                                             ;
+; 9:1                ; 10 bits   ; 60 LEs        ; 40 LEs               ; 20 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|Mux29                                             ;
+; 5:1                ; 5 bits    ; 15 LEs        ; 10 LEs               ; 5 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|m_small_ext[11] ;
+; 5:1                ; 3 bits    ; 9 LEs         ; 6 LEs                ; 3 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|m_small_ext[8]  ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|m_small_ext[7]  ;
+; 6:1                ; 4 bits    ; 16 LEs        ; 12 LEs               ; 4 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i|mag_int[28]             ;
+; 6:1                ; 3 bits    ; 12 LEs        ; 9 LEs                ; 3 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i|mag_int[26]             ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 40 LEs               ; 16 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux17                                     ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 40 LEs               ; 16 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux12                                     ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 6 LEs                ; 2 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|m_small_ext[1]  ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 8 LEs                ; 0 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|m_small_ext[2]  ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i|mag_int[18]             ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i|mag_int[9]              ;
+; 12:1               ; 4 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux25                                     ;
+; 12:1               ; 4 bits    ; 32 LEs        ; 24 LEs               ; 8 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux7                                      ;
+; 8:1                ; 4 bits    ; 20 LEs        ; 16 LEs               ; 4 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i|mag_int[4]              ;
+; 13:1               ; 2 bits    ; 16 LEs        ; 14 LEs               ; 2 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux29                                     ;
+; 13:1               ; 2 bits    ; 16 LEs        ; 14 LEs               ; 2 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux3                                      ;
+; 9:1                ; 2 bits    ; 12 LEs        ; 10 LEs               ; 2 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i|mag_int[3]              ;
+; 9:1                ; 8 bits    ; 48 LEs        ; 48 LEs               ; 0 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|add_sub_out     ;
+; 14:1               ; 2 bits    ; 18 LEs        ; 14 LEs               ; 4 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|alu:alu|Mux0                                      ;
+; 10:1               ; 2 bits    ; 12 LEs        ; 10 LEs               ; 2 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i|mag_int[0]              ;
+; 11:1               ; 7 bits    ; 49 LEs        ; 21 LEs               ; 28 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|add_sub_out     ;
+; 12:1               ; 6 bits    ; 48 LEs        ; 24 LEs               ; 24 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|add_sub_out     ;
+; 13:1               ; 3 bits    ; 24 LEs        ; 15 LEs               ; 9 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|add_sub_out     ;
+; 13:1               ; 2 bits    ; 16 LEs        ; 10 LEs               ; 6 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|add_sub_out     ;
+; 14:1               ; 2 bits    ; 18 LEs        ; 12 LEs               ; 6 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub|add_sub_out     ;
+; 23:1               ; 2 bits    ; 30 LEs        ; 28 LEs               ; 2 LEs                  ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|Mux2                                  ;
+; 26:1               ; 6 bits    ; 102 LEs       ; 90 LEs               ; 12 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|Mux7                                  ;
+; 29:1               ; 6 bits    ; 114 LEs       ; 42 LEs               ; 72 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|Mux25                                 ;
+; 31:1               ; 7 bits    ; 140 LEs       ; 56 LEs               ; 84 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|Mux17                                 ;
+; 31:1               ; 3 bits    ; 60 LEs        ; 27 LEs               ; 33 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|Mux13                                 ;
+; 32:1               ; 2 bits    ; 42 LEs        ; 20 LEs               ; 22 LEs                 ; No         ; |top|riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|Mux12                                 ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------------------------+
 
 
 +-------------------------------------------------------------------------------+
@@ -436,13 +527,23 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+----------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux3:resultmux ;
-+----------------+-------+---------------------------------------------------------------------+
-; Parameter Name ; Value ; Type                                                                ;
-+----------------+-------+---------------------------------------------------------------------+
-; WIDTH          ; 32    ; Signed Integer                                                      ;
-+----------------+-------+---------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux2:fpusrcamux ;
++----------------+-------+----------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                 ;
++----------------+-------+----------------------------------------------------------------------+
+; WIDTH          ; 32    ; Signed Integer                                                       ;
++----------------+-------+----------------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------+
+; Parameter Settings for User Entity Instance: riscvsingle:rvsingle|datapath:dp|mux2:fresultmux ;
++----------------+-------+----------------------------------------------------------------------+
+; Parameter Name ; Value ; Type                                                                 ;
++----------------+-------+----------------------------------------------------------------------+
+; WIDTH          ; 32    ; Signed Integer                                                       ;
++----------------+-------+----------------------------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -453,6 +554,64 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+-------+------------------------------------+
 ; WIDTH          ; 1     ; Signed Integer                     ;
 +----------------+-------+------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++----------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0 ;
++------------------------------------------------+----------+----------------------------------------------------------------+
+; Parameter Name                                 ; Value    ; Type                                                           ;
++------------------------------------------------+----------+----------------------------------------------------------------+
+; AUTO_CARRY_CHAINS                              ; ON       ; AUTO_CARRY                                                     ;
+; IGNORE_CARRY_BUFFERS                           ; OFF      ; IGNORE_CARRY                                                   ;
+; AUTO_CASCADE_CHAINS                            ; ON       ; AUTO_CASCADE                                                   ;
+; IGNORE_CASCADE_BUFFERS                         ; OFF      ; IGNORE_CASCADE                                                 ;
+; LPM_WIDTHA                                     ; 24       ; Untyped                                                        ;
+; LPM_WIDTHB                                     ; 24       ; Untyped                                                        ;
+; LPM_WIDTHP                                     ; 48       ; Untyped                                                        ;
+; LPM_WIDTHR                                     ; 48       ; Untyped                                                        ;
+; LPM_WIDTHS                                     ; 1        ; Untyped                                                        ;
+; LPM_REPRESENTATION                             ; UNSIGNED ; Untyped                                                        ;
+; LPM_PIPELINE                                   ; 0        ; Untyped                                                        ;
+; LATENCY                                        ; 0        ; Untyped                                                        ;
+; INPUT_A_IS_CONSTANT                            ; NO       ; Untyped                                                        ;
+; INPUT_B_IS_CONSTANT                            ; NO       ; Untyped                                                        ;
+; USE_EAB                                        ; OFF      ; Untyped                                                        ;
+; MAXIMIZE_SPEED                                 ; 5        ; Untyped                                                        ;
+; DEVICE_FAMILY                                  ; MAX 10   ; Untyped                                                        ;
+; CARRY_CHAIN                                    ; MANUAL   ; Untyped                                                        ;
+; APEX20K_TECHNOLOGY_MAPPER                      ; LUT      ; TECH_MAPPER_APEX20K                                            ;
+; DEDICATED_MULTIPLIER_CIRCUITRY                 ; AUTO     ; Untyped                                                        ;
+; DEDICATED_MULTIPLIER_MIN_INPUT_WIDTH_FOR_AUTO  ; 0        ; Untyped                                                        ;
+; DEDICATED_MULTIPLIER_MIN_OUTPUT_WIDTH_FOR_AUTO ; 0        ; Untyped                                                        ;
+; CBXI_PARAMETER                                 ; mult_1os ; Untyped                                                        ;
+; INPUT_A_FIXED_VALUE                            ; Bx       ; Untyped                                                        ;
+; INPUT_B_FIXED_VALUE                            ; Bx       ; Untyped                                                        ;
+; USE_AHDL_IMPLEMENTATION                        ; OFF      ; Untyped                                                        ;
++------------------------------------------------+----------+----------------------------------------------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++-----------------------------------------------------------------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0 ;
++------------------------+----------------+-----------------------------------------------------------------------------------+
+; Parameter Name         ; Value          ; Type                                                                              ;
++------------------------+----------------+-----------------------------------------------------------------------------------+
+; LPM_WIDTHN             ; 47             ; Untyped                                                                           ;
+; LPM_WIDTHD             ; 24             ; Untyped                                                                           ;
+; LPM_NREPRESENTATION    ; UNSIGNED       ; Untyped                                                                           ;
+; LPM_DREPRESENTATION    ; UNSIGNED       ; Untyped                                                                           ;
+; LPM_PIPELINE           ; 0              ; Untyped                                                                           ;
+; LPM_REMAINDERPOSITIVE  ; TRUE           ; Untyped                                                                           ;
+; MAXIMIZE_SPEED         ; 5              ; Untyped                                                                           ;
+; CBXI_PARAMETER         ; lpm_divide_evl ; Untyped                                                                           ;
+; CARRY_CHAIN            ; MANUAL         ; Untyped                                                                           ;
+; OPTIMIZE_FOR_SPEED     ; 5              ; Untyped                                                                           ;
+; AUTO_CARRY_CHAINS      ; ON             ; AUTO_CARRY                                                                        ;
+; IGNORE_CARRY_BUFFERS   ; OFF            ; IGNORE_CARRY                                                                      ;
+; AUTO_CASCADE_CHAINS    ; ON             ; AUTO_CASCADE                                                                      ;
+; IGNORE_CASCADE_BUFFERS ; OFF            ; IGNORE_CASCADE                                                                    ;
++------------------------+----------------+-----------------------------------------------------------------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -476,6 +635,26 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------------------+--------------------------+
 
 
++-------------------------------------------------------------------------------------------------------------------+
+; lpm_mult Parameter Settings by Entity Instance                                                                    ;
++---------------------------------------+---------------------------------------------------------------------------+
+; Name                                  ; Value                                                                     ;
++---------------------------------------+---------------------------------------------------------------------------+
+; Number of entity instances            ; 1                                                                         ;
+; Entity Instance                       ; riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0 ;
+;     -- LPM_WIDTHA                     ; 24                                                                        ;
+;     -- LPM_WIDTHB                     ; 24                                                                        ;
+;     -- LPM_WIDTHP                     ; 48                                                                        ;
+;     -- LPM_REPRESENTATION             ; UNSIGNED                                                                  ;
+;     -- INPUT_A_IS_CONSTANT            ; NO                                                                        ;
+;     -- INPUT_B_IS_CONSTANT            ; NO                                                                        ;
+;     -- USE_EAB                        ; OFF                                                                       ;
+;     -- DEDICATED_MULTIPLIER_CIRCUITRY ; AUTO                                                                      ;
+;     -- INPUT_A_FIXED_VALUE            ; Bx                                                                        ;
+;     -- INPUT_B_FIXED_VALUE            ; Bx                                                                        ;
++---------------------------------------+---------------------------------------------------------------------------+
+
+
 +--------------------------------------------+
 ; Port Connectivity Checks: "flopr:resetReg" ;
 +------+-------+----------+------------------+
@@ -483,6 +662,25 @@ Note: In order to hide this table in the UI and the text report file, please set
 +------+-------+----------+------------------+
 ; d    ; Input ; Info     ; Stuck at VCC     ;
 +------+-------+----------+------------------+
+
+
++------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_unpack:u_unpack_b"                   ;
++--------+--------+----------+-------------------------------------------------------------------------------------+
+; Port   ; Type   ; Severity ; Details                                                                             ;
++--------+--------+----------+-------------------------------------------------------------------------------------+
+; frac   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; is_sub ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++--------+--------+----------+-------------------------------------------------------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_unpack:u_unpack_a"                   ;
++--------+--------+----------+-------------------------------------------------------------------------------------+
+; Port   ; Type   ; Severity ; Details                                                                             ;
++--------+--------+----------+-------------------------------------------------------------------------------------+
+; is_sub ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++--------+--------+----------+-------------------------------------------------------------------------------------+
 
 
 +---------------------------------------------------------------------------+
@@ -511,24 +709,27 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 22                          ;
-; cycloneiii_ff         ; 1067                        ;
+; cycloneiii_ff         ; 2091                        ;
 ;     CLR               ; 11                          ;
 ;     CLR SLD           ; 20                          ;
-;     ENA               ; 1034                        ;
+;     ENA               ; 2058                        ;
 ;     ENA CLR           ; 2                           ;
-; cycloneiii_lcell_comb ; 2051                        ;
-;     arith             ; 92                          ;
-;         2 data inputs ; 30                          ;
-;         3 data inputs ; 62                          ;
-;     normal            ; 1959                        ;
-;         1 data inputs ; 1                           ;
-;         2 data inputs ; 6                           ;
-;         3 data inputs ; 223                         ;
-;         4 data inputs ; 1729                        ;
+; cycloneiii_lcell_comb ; 6943                        ;
+;     arith             ; 1254                        ;
+;         2 data inputs ; 151                         ;
+;         3 data inputs ; 1103                        ;
+;     normal            ; 5689                        ;
+;         0 data inputs ; 54                          ;
+;         1 data inputs ; 7                           ;
+;         2 data inputs ; 162                         ;
+;         3 data inputs ; 1212                        ;
+;         4 data inputs ; 4254                        ;
+; cycloneiii_mac_mult   ; 4                           ;
+; cycloneiii_mac_out    ; 4                           ;
 ; cycloneiii_ram_block  ; 32                          ;
 ;                       ;                             ;
-; Max LUT depth         ; 20.00                       ;
-; Average LUT depth     ; 16.74                       ;
+; Max LUT depth         ; 193.70                      ;
+; Average LUT depth     ; 125.55                      ;
 +-----------------------+-----------------------------+
 
 
@@ -537,7 +738,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:05     ;
+; Top            ; 00:00:36     ;
 +----------------+--------------+
 
 
@@ -547,7 +748,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-    Info: Processing started: Wed Nov 18 15:19:33 2026
+    Info: Processing started: Fri Nov 27 17:36:07 2026
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off top -c top
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 10 of the 10 processors detected
@@ -578,11 +779,31 @@ Info (12021): Found 1 design units, including 1 entities, in source file adder.s
 Info (12021): Found 1 design units, including 1 entities, in source file riscvsingle.sv
     Info (12023): Found entity 1: riscvsingle File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv Line: 1
 Info (12021): Found 1 design units, including 1 entities, in source file maindec.sv
-    Info (12023): Found entity 1: maindec File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/maindec.sv Line: 1
+    Info (12023): Found entity 1: maindec File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/maindec.sv Line: 2
 Info (12021): Found 1 design units, including 1 entities, in source file aludec.sv
     Info (12023): Found entity 1: aludec File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/aludec.sv Line: 3
 Info (12021): Found 1 design units, including 1 entities, in source file mux3.sv
     Info (12023): Found entity 1: mux3 File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mux3.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file fpu_alu.sv
+    Info (12023): Found entity 1: fpu_alu File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_alu.sv Line: 3
+Info (12021): Found 1 design units, including 0 entities, in source file fpu_pkg.sv
+    Info (12022): Found design unit 1: fpu_pkg (SystemVerilog) File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_pkg.sv Line: 3
+Info (12021): Found 1 design units, including 1 entities, in source file fpu_unpack.sv
+    Info (12023): Found entity 1: fpu_unpack File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_unpack.sv Line: 5
+Info (12021): Found 1 design units, including 1 entities, in source file fpu_i2f.sv
+    Info (12023): Found entity 1: fpu_i2f File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_i2f.sv Line: 4
+Info (12021): Found 1 design units, including 1 entities, in source file fpu_f2i.sv
+    Info (12023): Found entity 1: fpu_f2i File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_f2i.sv Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file fpu_mul.sv
+    Info (12023): Found entity 1: fpu_mul File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_mul.sv Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file fpu_div.sv
+    Info (12023): Found entity 1: fpu_div File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_div.sv Line: 2
+Info (12021): Found 1 design units, including 1 entities, in source file fpu_add_sub.sv
+    Info (12023): Found entity 1: fpu_add_sub File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_add_sub.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file fregfile.sv
+    Info (12023): Found entity 1: fregfile File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fregfile.sv Line: 3
+Info (12021): Found 1 design units, including 1 entities, in source file fpudec.sv
+    Info (12023): Found entity 1: fpudec File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpudec.sv Line: 4
 Info (12127): Elaborating entity "top" for the top level hierarchy
 Info (12128): Elaborating entity "mem" for hierarchy "mem:mem" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/top.sv Line: 24
 Info (12128): Elaborating entity "altsyncram" for hierarchy "mem:mem|altsyncram:u_mem" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.sv Line: 35
@@ -597,36 +818,80 @@ Info (12133): Instantiated megafunction "mem:mem|altsyncram:u_mem" with the foll
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_vlt.tdf
     Info (12023): Found entity 1: altsyncram_vlt File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/altsyncram_vlt.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_vlt" for hierarchy "mem:mem|altsyncram:u_mem|altsyncram_vlt:auto_generated" File: c:/intelfpga_lite/23.1std/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
-Critical Warning (127005): Memory depth (1024) in the design file differs from memory depth (64) in the Memory Initialization File "D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.mif" -- setting initial value for remaining addresses to 0 File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/mem.sv Line: 35
 Info (12128): Elaborating entity "riscvsingle" for hierarchy "riscvsingle:rvsingle" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/top.sv Line: 29
-Info (12128): Elaborating entity "controller" for hierarchy "riscvsingle:rvsingle|controller:c" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv Line: 15
-Info (12128): Elaborating entity "maindec" for hierarchy "riscvsingle:rvsingle|controller:c|maindec:md" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/controller.sv Line: 20
-Info (12128): Elaborating entity "aludec" for hierarchy "riscvsingle:rvsingle|controller:c|aludec:ad" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/controller.sv Line: 22
-Info (12128): Elaborating entity "datapath" for hierarchy "riscvsingle:rvsingle|datapath:dp" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv Line: 21
-Info (12128): Elaborating entity "flopr" for hierarchy "riscvsingle:rvsingle|datapath:dp|flopr:pcreg" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 19
-Info (12128): Elaborating entity "adder" for hierarchy "riscvsingle:rvsingle|datapath:dp|adder:pcadd4" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 20
-Info (12128): Elaborating entity "mux3" for hierarchy "riscvsingle:rvsingle|datapath:dp|mux3:pcmux" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 22
-Info (12128): Elaborating entity "regfile" for hierarchy "riscvsingle:rvsingle|datapath:dp|regfile:rf" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 26
-Info (12128): Elaborating entity "extend" for hierarchy "riscvsingle:rvsingle|datapath:dp|extend:ext" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 28
-Info (12128): Elaborating entity "mux2" for hierarchy "riscvsingle:rvsingle|datapath:dp|mux2:srcbmux" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 31
-Info (12128): Elaborating entity "alu" for hierarchy "riscvsingle:rvsingle|datapath:dp|alu:alu" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 32
+Info (12128): Elaborating entity "controller" for hierarchy "riscvsingle:rvsingle|controller:c" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv Line: 25
+Info (12128): Elaborating entity "maindec" for hierarchy "riscvsingle:rvsingle|controller:c|maindec:md" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/controller.sv Line: 38
+Info (12128): Elaborating entity "aludec" for hierarchy "riscvsingle:rvsingle|controller:c|aludec:ad" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/controller.sv Line: 40
+Info (12128): Elaborating entity "fpudec" for hierarchy "riscvsingle:rvsingle|controller:c|fpudec:fd" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/controller.sv Line: 45
+Info (12128): Elaborating entity "datapath" for hierarchy "riscvsingle:rvsingle|datapath:dp" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/riscvsingle.sv Line: 32
+Info (12128): Elaborating entity "flopr" for hierarchy "riscvsingle:rvsingle|datapath:dp|flopr:pcreg" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 34
+Info (12128): Elaborating entity "adder" for hierarchy "riscvsingle:rvsingle|datapath:dp|adder:pcadd4" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 35
+Info (12128): Elaborating entity "mux3" for hierarchy "riscvsingle:rvsingle|datapath:dp|mux3:pcmux" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 37
+Info (12128): Elaborating entity "regfile" for hierarchy "riscvsingle:rvsingle|datapath:dp|regfile:rf" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 41
+Info (12128): Elaborating entity "extend" for hierarchy "riscvsingle:rvsingle|datapath:dp|extend:ext" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 43
+Info (12128): Elaborating entity "mux2" for hierarchy "riscvsingle:rvsingle|datapath:dp|mux2:srcbmux" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 46
+Info (12128): Elaborating entity "alu" for hierarchy "riscvsingle:rvsingle|datapath:dp|alu:alu" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 47
+Info (12128): Elaborating entity "fregfile" for hierarchy "riscvsingle:rvsingle|datapath:dp|fregfile:frf" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 54
+Info (12128): Elaborating entity "fpu_alu" for hierarchy "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/datapath.sv Line: 63
+Info (12128): Elaborating entity "fpu_unpack" for hierarchy "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_unpack:u_unpack_a" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_alu.sv Line: 35
+Info (12128): Elaborating entity "fpu_add_sub" for hierarchy "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_add_sub:u_add_sub" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_alu.sv Line: 79
+Info (12128): Elaborating entity "fpu_mul" for hierarchy "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_alu.sv Line: 96
+Info (12128): Elaborating entity "fpu_div" for hierarchy "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_alu.sv Line: 113
+Info (12128): Elaborating entity "fpu_f2i" for hierarchy "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_f2i:u_f2i" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_alu.sv Line: 124
+Info (12128): Elaborating entity "fpu_i2f" for hierarchy "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_i2f:u_i2f" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_alu.sv Line: 131
 Info (12128): Elaborating entity "flopr" for hierarchy "flopr:resetReg" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/top.sv Line: 32
-Info (276014): Found 1 instances of uninferred RAM logic
+Info (276014): Found 2 instances of uninferred RAM logic
     Info (276007): RAM logic "riscvsingle:rvsingle|datapath:dp|regfile:rf|rf" is uninferred due to asynchronous read logic File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/regfile.sv Line: 10
+    Info (276007): RAM logic "riscvsingle:rvsingle|datapath:dp|fregfile:frf|rf" is uninferred due to asynchronous read logic File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fregfile.sv Line: 12
+Info (278001): Inferred 2 megafunctions from design logic
+    Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|Mult0" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_mul.sv Line: 43
+    Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|Div0" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_div.sv Line: 47
+Info (12130): Elaborated megafunction instantiation "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_mul.sv Line: 43
+Info (12133): Instantiated megafunction "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0" with the following parameter: File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_mul.sv Line: 43
+    Info (12134): Parameter "LPM_WIDTHA" = "24"
+    Info (12134): Parameter "LPM_WIDTHB" = "24"
+    Info (12134): Parameter "LPM_WIDTHP" = "48"
+    Info (12134): Parameter "LPM_WIDTHR" = "48"
+    Info (12134): Parameter "LPM_WIDTHS" = "1"
+    Info (12134): Parameter "LPM_REPRESENTATION" = "UNSIGNED"
+    Info (12134): Parameter "INPUT_A_IS_CONSTANT" = "NO"
+    Info (12134): Parameter "INPUT_B_IS_CONSTANT" = "NO"
+    Info (12134): Parameter "MAXIMIZE_SPEED" = "5"
+Info (12021): Found 1 design units, including 1 entities, in source file db/mult_1os.tdf
+    Info (12023): Found entity 1: mult_1os File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/mult_1os.tdf Line: 31
+Info (12130): Elaborated megafunction instantiation "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0" File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_div.sv Line: 47
+Info (12133): Instantiated megafunction "riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_div:u_div|lpm_divide:Div0" with the following parameter: File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/fpu_div.sv Line: 47
+    Info (12134): Parameter "LPM_WIDTHN" = "47"
+    Info (12134): Parameter "LPM_WIDTHD" = "24"
+    Info (12134): Parameter "LPM_NREPRESENTATION" = "UNSIGNED"
+    Info (12134): Parameter "LPM_DREPRESENTATION" = "UNSIGNED"
+Info (12021): Found 1 design units, including 1 entities, in source file db/lpm_divide_evl.tdf
+    Info (12023): Found entity 1: lpm_divide_evl File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/lpm_divide_evl.tdf Line: 25
+Info (12021): Found 1 design units, including 1 entities, in source file db/sign_div_unsign_gnh.tdf
+    Info (12023): Found entity 1: sign_div_unsign_gnh File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/sign_div_unsign_gnh.tdf Line: 25
+Info (12021): Found 1 design units, including 1 entities, in source file db/alt_u_div_ale.tdf
+    Info (12023): Found entity 1: alt_u_div_ale File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/alt_u_div_ale.tdf Line: 27
+Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_t3c.tdf
+    Info (12023): Found entity 1: add_sub_t3c File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/add_sub_t3c.tdf Line: 23
+Info (12021): Found 1 design units, including 1 entities, in source file db/add_sub_u3c.tdf
+    Info (12023): Found entity 1: add_sub_u3c File: D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/db/add_sub_u3c.tdf Line: 23
+Info (13014): Ignored 153 buffer(s)
+    Info (13019): Ignored 153 SOFT buffer(s)
 Info (286030): Timing-Driven Synthesis is running
 Info (144001): Generated suppressed messages file D:/CosasUdeA/DIGITALES II/LAB/RiscV-SystemVerilog/Procesador/ProcesadorUniciclo/output_files/top.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 3140 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 9063 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 12 input pins
     Info (21059): Implemented 10 output pins
-    Info (21061): Implemented 3086 logic cells
+    Info (21061): Implemented 9002 logic cells
     Info (21064): Implemented 32 RAM segments
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 2 warnings
-    Info: Peak virtual memory: 4861 megabytes
-    Info: Processing ended: Wed Nov 18 15:19:48 2026
-    Info: Elapsed time: 00:00:15
-    Info: Total CPU time (on all processors): 00:00:30
+    Info (21062): Implemented 7 DSP elements
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 1 warning
+    Info: Peak virtual memory: 4930 megabytes
+    Info: Processing ended: Fri Nov 27 17:36:56 2026
+    Info: Elapsed time: 00:00:49
+    Info: Total CPU time (on all processors): 00:01:08
 
 
 +------------------------------------------+

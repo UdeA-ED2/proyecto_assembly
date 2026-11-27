@@ -1,1 +1,5 @@
 v1
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0|mult_1os:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0|mult_1os:auto_generated|mac_out8,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0|mult_1os:auto_generated|mac_out4,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,riscvsingle:rvsingle|datapath:dp|fpu_alu:fpu|fpu_mul:u_mul|lpm_mult:Mult0|mult_1os:auto_generated|mac_out6,

@@ -1,9 +1,4 @@
-// ============================================================================
-// Archivo: fpu_alu.sv
-// Función: Módulo principal (Top-Level) de la ALU de Punto Flotante de 32 bits.
-//          Integra el desempaquetado de operandos y multiplexa el resultado
-//          de las 6 operaciones solicitadas en la Entrega 5.
-// ============================================================================
+//Modulo principal que integra todo, alu en general
 
 module fpu_alu (
   input  logic [31:0] a,           // Operando A de 32 bits (float32, o int32 en operación I2F)
@@ -16,7 +11,6 @@ module fpu_alu (
 
   // --------------------------------------------------------------------------
   // SECCIÓN 1: Cables internos para recibir los datos desempaquetados de A y B
-  // --------------------------------------------------------------------------
   logic        s_a, s_b;           // Signos de A y B
   logic [7:0]  e_a, e_b;           // Exponentes sesgados de A y B
   logic [22:0] f_a, f_b;           // Fracciones de 23 bits de A y B
@@ -26,7 +20,7 @@ module fpu_alu (
 
   // --------------------------------------------------------------------------
   // SECCIÓN 2: Instanciación del Módulo 1 (Desempaquetadores para A y B)
-  // --------------------------------------------------------------------------
+
   // Instancia 1: analiza el bus de entrada "a"
   fpu_unpack u_unpack_a (
     .in      (a),      // Conectamos la entrada 'a' de la ALU al puerto 'in' del desempaquetador
@@ -55,24 +49,91 @@ module fpu_alu (
 
   // --------------------------------------------------------------------------
   // SECCIÓN 3: Cables internos para conectar las futuras unidades funcionales
-  // --------------------------------------------------------------------------
   logic [31:0] res_add_sub; // Resultado proveniente del módulo Sumador/Restador
   logic [31:0] res_mul;     // Resultado proveniente del módulo Multiplicador
   logic [31:0] res_div;     // Resultado proveniente del módulo Divisor
   logic [31:0] res_f2i;     // Resultado proveniente del módulo Float to Int
   logic [31:0] res_i2f;     // Resultado proveniente del módulo Int to Float
+  
+  
+//-----------------------------------------------------------------------------------------------
+// Conexiones temporales a cero mientras construimos cada módulo paso a paso:
 
-  // Conexiones temporales a cero mientras construimos cada módulo paso a paso:
-  // (Iremos reemplazando cada línea por la instancia real del módulo correspondiente)
-  assign res_add_sub = FP32_POS_ZERO; // Temporal hasta crear fpu_add_sub.sv
-  assign res_mul     = FP32_POS_ZERO; // Temporal hasta crear fpu_mul.sv
-  assign res_div     = FP32_POS_ZERO; // Temporal hasta crear fpu_div.sv
-  assign res_f2i     = 32'h0000_0000; // Temporal hasta crear fpu_f2i.sv
-  assign res_i2f     = FP32_POS_ZERO; // Temporal hasta crear fpu_i2f.sv
+  // 1. Unidad de Suma y Resta (20% de la nota)
+  // Nota: fpu_control[0] vale 0 en FPU_ADD (3'b000) y 1 en FPU_SUB (3'b001)
+  fpu_add_sub u_add_sub (
+    .s_a         (s_a),
+    .e_a         (e_a),
+    .m_a         (m_a),
+    .a_zero      (a_zero),
+    .a_inf       (a_inf),
+    .a_nan       (a_nan),
+    .s_b         (s_b),
+    .e_b         (e_b),
+    .m_b         (m_b),
+    .b_zero      (b_zero),
+    .b_inf       (b_inf),
+    .b_nan       (b_nan),
+    .is_sub      (fpu_control[0]),
+    .add_sub_out (res_add_sub)
+  );
+  
+  // Instancia del Multiplicador Float 
+  fpu_mul u_mul (
+    .s_a     (s_a),     // Signo de A
+    .e_a     (e_a),     // Exponente de A
+    .m_a     (m_a),     // Mantisa de 24 bits de A
+    .a_zero  (a_zero),  // Bandera cero de A
+    .a_inf   (a_inf),   // Bandera infinito de A
+    .a_nan   (a_nan),   // Bandera NaN de A
+    .s_b     (s_b),     // Signo de B
+    .e_b     (e_b),     // Exponente de B
+    .m_b     (m_b),     // Mantisa de 24 bits de B
+    .b_zero  (b_zero),  // Bandera cero de B
+    .b_inf   (b_inf),   // Bandera infinito de B
+    .b_nan   (b_nan),   // Bandera NaN de B
+    .mul_out (res_mul)  // Sale el producto hacia el multiplexor de la ALU
+  );
+  
+  // Instancia real del Archivo 7: Divisor Float (10% de la nota)
+  fpu_div u_div (
+    .s_a     (s_a),     // Signo de A
+    .e_a     (e_a),     // Exponente de A
+    .m_a     (m_a),     // Mantisa de 24 bits de A
+    .a_zero  (a_zero),  // Bandera cero de A
+    .a_inf   (a_inf),   // Bandera infinito de A
+    .a_nan   (a_nan),   // Bandera NaN de A
+    .s_b     (s_b),     // Signo de B
+    .e_b     (e_b),     // Exponente de B
+    .m_b     (m_b),     // Mantisa de 24 bits de B
+    .b_zero  (b_zero),  // Bandera cero de B
+    .b_inf   (b_inf),   // Bandera infinito de B
+    .b_nan   (b_nan),   // Bandera NaN de B
+    .div_out (res_div)  // Sale el cociente hacia el multiplexor de la ALU
+  );
+  
+  // Instancia de Conversión Float a Entero int
+  fpu_f2i u_f2i (
+    .sign    (s_a),     // Signo de A (extraído por u_unpack_a)
+    .exp     (e_a),     // Exponente de A (extraído por u_unpack_a)
+    .frac    (f_a),     // Fracción de A (extraída por u_unpack_a)
+    .mant    (m_a),     // Mantisa de 24 bits de A (extraída por u_unpack_a)
+    .is_inf  (a_inf),   // Bandera de infinito de A
+    .is_nan  (a_nan),   // Bandera de NaN de A
+    .int_out (res_f2i)  // Sale el entero convertido hacia el multiplexor de la ALU
+  );
+  
+
+  // Instancia del entero int a float
+  fpu_i2f u_i2f (
+    .int_in    (a),       // Entra el operando entero 'a' de la ALU
+    .float_out (res_i2f)  // Sale el flotante convertido hacia el multiplexor de la ALU
+  );
+//----------------------------------------------------------------------------------------------------
+
 
   // --------------------------------------------------------------------------
   // SECCIÓN 4: Multiplexor de salida (elige qué operación sale por "result")
-  // --------------------------------------------------------------------------
   always_comb begin              // Bloque puramente combinacional (se actualiza al instante)
     case (fpu_control)           // Evalúa los 3 bits de la señal de control
       FPU_ADD: result = res_add_sub; // Si es 000, saca el resultado de suma/resta
@@ -82,7 +143,7 @@ module fpu_alu (
       FPU_F2I: result = res_f2i;     // Si es 100, saca el resultado de float a int
       FPU_I2F: result = res_i2f;     // Si es 101, saca el resultado de int a float
       default: result = FP32_QNAN;   // Para códigos no usados (110, 111), devuelve NaN por seguridad
-    endcase                          // Fin del bloque case
-  end                                // Fin del bloque always_comb
+    endcase                          
+  end                                
 
-endmodule // Fin del módulo principal fpu_alu
+endmodule

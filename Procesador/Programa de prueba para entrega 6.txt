@@ -1,0 +1,111 @@
+.global _start
+_start:
+    addi a0, zero, 0        # Todos los LEDs empiezan apagados (0000000000)
+    la s0, LEDs
+    lw s0, 0(s0)            # s0 = 0xFF200000
+    sw a0, 0(s0)            # Limpia la X inicial en los LEDs
+
+    # --- PRUEBA 1: fmv.w.x y fmv.x.w - Controla LED[0] (+1) ---
+    la t0, val_2_5
+    lw t1, 0(t0)            # t1 = 0x40200000 (+2.5)
+    fmv.w.x f1, t1          # Copia los 32 bits crudos de t1 a f1
+    fmv.x.w t2, f1          # Devuelve los 32 bits de f1 a t2
+    bne t2, t1, next1       # Si no son iguales falla, LED[0] queda en 0
+    addi a0, a0, 1          # Si son iguales entonces funciona, enciende LED[0]
+next1:
+    sw a0, 0(s0)            # Actualiza LEDs en tiempo real
+
+    # --- PRUEBA 2: fcvt.s.w positivo (6 -> +6.0) - Controla LED[1] (+2) ---
+    addi t0, zero, 6
+    fcvt.s.w f2, t0         # f2 = +6.0 (0x40C00000)
+    la t0, val_6_0
+    lw t1, 0(t0)            # t1 = 0x40C00000
+    fmv.x.w t2, f2
+    bne t2, t1, next2       # Si no son iguales entonces falla, LED[1] queda en 0
+    addi a0, a0, 2          # Si funciona, enciende LED[1] porque 
+next2:
+    sw a0, 0(s0)
+
+    # --- PRUEBA 3: fcvt.s.w negativo (-6 -> -6.0) -> Controla LED[2] (+4) ---
+    addi t0, zero, -6
+    fcvt.s.w f3, t0         # f3 = -6.0 (0xC0C00000)
+    la t0, val_m6_0
+    lw t1, 0(t0)            # t1 = 0xC0C00000
+    fmv.x.w t2, f3
+    bne t2, t1, next3       # Si falla, LED[2] queda en 0
+    addi a0, a0, 4          # Si funciona, enciende LED[2]
+next3:
+    sw a0, 0(s0)
+
+    # --- PRUEBA 4: fcvt.w.s truncamiento (+2.5 -> 2) -> Controla LED[3] (+8) ---
+    fcvt.w.s t2, f1         # Convierte +2.5 (f1) a entero truncado (t2 = 2)
+    addi t1, zero, 2
+    bne t2, t1, next4       # Si falla, LED[3] queda en 0
+    addi a0, a0, 8          # Si funciona, enciende LED[3]
+next4:
+    sw a0, 0(s0)
+
+    # --- PRUEBA 5: fcvt.w.s negativo (-6.0 -> -6) -> Controla LED[4] (+16) ---
+    fcvt.w.s t2, f3         # Convierte -6.0 (f3) a entero con signo (t2 = -6)
+    addi t1, zero, -6
+    bne t2, t1, next5       # Si falla, LED[4] queda en 0
+    addi a0, a0, 16         # Si funciona, enciende LED[4]
+next5:
+    sw a0, 0(s0)
+
+    # --- PRUEBA 6: fadd.s (+2.5 + (-6.0) = -3.5) -> Controla LED[5] (+32) ---
+    fadd.s f4, f1, f3       # f4 = -3.5 (0xC0600000)
+    la t0, val_m3_5
+    lw t1, 0(t0)            # t1 = 0xC0600000
+    fmv.x.w t2, f4
+    bne t2, t1, next6       # Si falla, LED[5] queda en 0
+    addi a0, a0, 32         # Si funciona, enciende LED[5]
+next6:
+    sw a0, 0(s0)
+
+    # --- PRUEBA 7: fsub.s (+2.5 - (+6.0) = -3.5) -> Controla LED[6] (+64) ---
+    fsub.s f4, f1, f2       # f4 = -3.5 (0xC0600000)
+    fmv.x.w t2, f4          # Reutiliza t1 = 0xC0600000
+    bne t2, t1, next7       # Si falla, LED[6] queda en 0
+    addi a0, a0, 64         # Si funciona, enciende LED[6]
+next7:
+    sw a0, 0(s0)
+
+    # --- PRUEBA 8: fmul.s (+2.5 * (-6.0) = -15.0) -> Controla LED[7] (+128) ---
+    fmul.s f5, f1, f3       # f5 = -15.0 (0xC1700000)
+    la t0, val_m15_0
+    lw t1, 0(t0)            # t1 = 0xC1700000
+    fmv.x.w t2, f5
+    bne t2, t1, next8       # Si falla, LED[7] queda en 0
+    addi a0, a0, 128        # Si funciona, enciende LED[7]
+next8:
+    sw a0, 0(s0)
+
+    # --- PRUEBA 9: fdiv.s (-15.0 / (+6.0) = -2.5) -> Controla LED[8] (+256) ---
+    fdiv.s f6, f5, f2       # f6 = -2.5 (0xC0200000)
+    la t0, val_m2_5
+    lw t1, 0(t0)            # t1 = 0xC0200000
+    fmv.x.w t2, f6
+    bne t2, t1, next9       # Si falla, LED[8] queda en 0
+    addi a0, a0, 256        # Si funciona, enciende LED[8]
+next9:
+    sw a0, 0(s0)
+
+    # --- PRUEBA 10: fadd.s resultado cero (+2.5 + (-2.5) = 0.0) -> Controla LED[9] (+512) ---
+    fadd.s f7, f1, f6       # f7 = 0.0 (0x00000000)
+    fmv.x.w t2, f7
+    bne t2, zero, final     # Si falla, LED[9] queda en 0
+    addi a0, a0, 512        # Si funciona, enciende LED[9]
+
+final:
+    sw a0, 0(s0)            # Muestra el estado final de todos los LEDs (0x3FF = 1111111111)
+    beq zero, zero, final   # Loop infinito
+
+.data
+LEDs:      .dc.l 0xFF200000
+val_2_5:   .dc.l 0x40200000
+val_6_0:   .dc.l 0x40C00000
+val_m6_0:  .dc.l 0xC0C00000
+val_m3_5:  .dc.l 0xC0600000
+val_m15_0: .dc.l 0xC1700000
+val_m2_5:  .dc.l 0xC0200000

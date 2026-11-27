@@ -1,9 +1,6 @@
-// ============================================================================
-// Archivo: fpu_unpack.sv
-// Función: Módulo 1 - Desempaquetador IEEE-754 de 32 bits.
-//          Separa los campos del número flotante, detecta casos especiales
-//          y reconstruye la mantisa real de 24 bits con el bit implícito.
-// ============================================================================
+//Desempaquetador IEEE-754 de 32 bits.
+//Separa los campos del número flotante, detecta casos especiales
+//y reconstruye la mantisa real de 24 bits con el bit implícito.
 
 module fpu_unpack (
   input  logic [31:0] in,      // Entrada: palabra IEEE-754 de 32 bits a analizar
@@ -18,15 +15,13 @@ module fpu_unpack (
 );
 
   // --------------------------------------------------------------------------
-  // BLOQUE 1: Extracción directa de cables (rebanado del bus de 32 bits)
-  // --------------------------------------------------------------------------
+  // Extracción directa de cables (rebanado del bus de 32 bits)
   assign sign = in[31];        // Toma el bit más significativo (bit 31) como signo
   assign exp  = in[30:23];     // Toma los siguientes 8 bits (30 al 23) como exponente
   assign frac = in[22:0];      // Toma los últimos 23 bits (22 al 0) como fracción
 
   // --------------------------------------------------------------------------
-  // BLOQUE 2: Señales auxiliares para evaluar el exponente y la fracción
-  // --------------------------------------------------------------------------
+  // Señales auxiliares para evaluar el exponente y la fracción
   logic exp_is_zero;           // Cable interno: vale 1 si todos los bits del exponente son 0
   logic exp_is_ones;           // Cable interno: vale 1 si todos los bits del exponente son 1 (255)
   logic frac_is_zero;          // Cable interno: vale 1 si todos los 23 bits de fracción son 0
@@ -36,19 +31,18 @@ module fpu_unpack (
   assign frac_is_zero = (frac == 23'h0);  // Compara si los 23 bits de fracción son todos 0
 
   // --------------------------------------------------------------------------
-  // BLOQUE 3: Detección combinacional de casos especiales IEEE-754
-  // --------------------------------------------------------------------------
+  // Detección combinacional de casos especiales IEEE-754
   assign is_zero = exp_is_zero &&  frac_is_zero; // Cero: exponente en 0 Y fracción en 0
   assign is_sub  = exp_is_zero && !frac_is_zero; // Subnormal: exponente en 0 Y fracción distinta de 0
   assign is_inf  = exp_is_ones &&  frac_is_zero; // Infinito: exponente en 255 Y fracción en 0
   assign is_nan  = exp_is_ones && !frac_is_zero; // NaN: exponente en 255 Y fracción distinta de 0
 
   // --------------------------------------------------------------------------
-  // BLOQUE 4: Reconstrucción de la mantisa real de 24 bits
-  // --------------------------------------------------------------------------
+  //  Reconstrucción de la mantisa real de 24 bits
+
   // Operador ternario (condición ? valor_si_verdadero : valor_si_falso), equivale a un MUX 2 a 1:
   // - Si el exponente es 0 (cero o subnormal), NO hay bit implícito en 1; se concatena un 0 adelante.
   // - Si el exponente es distinto de 0 (número normal), se concatena el 1 implícito adelante.
   assign mant = exp_is_zero ? {1'b0, frac} : {1'b1, frac};
 
-endmodule // Fin del módulo desempaquetador
+endmodule 

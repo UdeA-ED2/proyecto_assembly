@@ -1,0 +1,30 @@
+// ============================================================================
+// Archivo: fregfile.sv
+// Función: Banco de 32 registros de punto flotante (f0 - f31) de 32 bits
+//          para la extensión RISC-V RV32F.
+// ============================================================================
+
+module fregfile (
+  input  logic        clk,      // Reloj del sistema
+  input  logic        we3,      // Habilitación de escritura (FRegWrite)
+  input  logic [4:0]  a1, a2,   // Direcciones de lectura rs1 (Instr[19:15]) y rs2 (Instr[24:20])
+  input  logic [4:0]  a3,       // Dirección de escritura rd (Instr[11:7])
+  input  logic [31:0] wd3,      // Dato IEEE-754 de 32 bits a escribir en f[rd]
+  output logic [31:0] rd1, rd2  // Datos IEEE-754 leídos de f[rs1] y f[rs2]
+);
+
+  // Arreglo de 32 registros de 32 bits (f0 hasta f31)
+  logic [31:0] rf[31:0];
+
+  // Escritura síncrona en flanco de subida del reloj.
+  // Nota: A diferencia de x0 en enteros, f0 es un registro escribible normal.
+  always_ff @(posedge clk) begin
+    if (we3)
+      rf[a3] <= wd3;
+  end
+
+  // Lectura combinacional asíncrona (disponible en el mismo ciclo)
+  assign rd1 = rf[a1];
+  assign rd2 = rf[a2];
+
+endmodule

@@ -1,7 +1,4 @@
-// ============================================================================
-// Archivo: fpu_pkg.sv
-// Función: Paquete global de tipos y constantes IEEE-754 de 32 bits.
-// ============================================================================
+// MOdulo que desempaqueta cada parte de la los numeros y bits
 
 package fpu_pkg; // Inicia el paquete llamado "fpu_pkg" para compartir definiciones
 
@@ -14,9 +11,9 @@ package fpu_pkg; // Inicia el paquete llamado "fpu_pkg" para compartir definicio
     FPU_DIV = 3'b011, // Código 011: División en punto flotante (A / B)
     FPU_F2I = 3'b100, // Código 100: Conversión Float a Entero (int32)
     FPU_I2F = 3'b101  // Código 101: Conversión Entero a Float (float32)
-  } fpu_op_e;         // Nombre del nuevo tipo de dato de 3 bits
+  } fpu_op_t;         // Nombre del nuevo tipo de dato de 3 bits
 
-  // Constantes canónicas del estándar IEEE-754 de 32 bits (Single-Precision)
+  // Constantes canónicas del estándar IEEE-754 de 32 bits
   // El guion bajo (_) en los números hexadecimales solo sirve para leerlos más fácil; el compilador lo ignora.
   localparam logic [31:0] FP32_POS_ZERO = 32'h0000_0000; // +0.0: Signo=0, Exp=0x00, Frac=0
   localparam logic [31:0] FP32_NEG_ZERO = 32'h8000_0000; // -0.0: Signo=1, Exp=0x00, Frac=0
@@ -29,4 +26,4 @@ package fpu_pkg; // Inicia el paquete llamado "fpu_pkg" para compartir definicio
   localparam logic [31:0] INT32_MAX     = 32'h7FFF_FFFF; // +2,147,483,647 (0 seguido de 31 unos)
   localparam logic [31:0] INT32_MIN     = 32'h8000_0000; // -2,147,483,648 (1 seguido de 31 ceros)
 
-endpackage // Finaliza el paquete fpu_pkg
+endpackage
